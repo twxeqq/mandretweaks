@@ -1,0 +1,245 @@
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    font-family: 'Google Sans', 'Oppen Sans', 'Roboto';
+    width: 100%;
+}
+
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-left{
+    display: flex;
+    align-items: center;
+}
+
+.navbar-left img{
+    width: 70px;
+    height: auto;
+    padding: 5px 20px 5px 20px;
+}
+
+.navbar-left div{
+    font-family: "SoDo Sans SemiBold", Arial, Helvetica, Helvetica Neue, sans-serif;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: x-large;
+}
+
+.navbar-right{
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.navbar-right a{
+    padding: 10px 20px 10px 20px;
+    font-family: "SoDo Sans SemiBold", Arial, Helvetica, Helvetica Neue, sans-serif;
+    font-weight: 600;
+    font-size: medium;
+    text-decoration: none;
+    margin: 5px;
+}
+
+.channel-link{
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease-out;
+    margin-right: -15px;
+}
+
+.channel-link svg{
+    margin-left: 30px;
+    width: 24px;
+    height: 24px;
+    fill: black;
+    transition: fill 0.3s ease-out;
+    margin-right: -15px;
+}
+
+.channel-link a{
+    color: black;
+    text-transform: uppercase;
+    transition: color 0.3s ease-out;
+    cursor: pointer;
+}
+
+
+.channel-link:hover a{
+    color: rgb(151, 0, 221);
+}
+
+.channel-link:hover svg{
+    fill: rgb(151, 0, 221);
+}
+
+.filled-link,
+.unfield-link{
+    text-transform: uppercase;
+    border: 1px solid black;
+    border-radius: 40px;
+    transition: all 0.3s ease-out;
+    cursor: pointer;
+}
+
+.filled-link{
+    background-color: black;
+    color: white;
+}
+
+.filled-link:hover{
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.unfield-link{
+    color: black;
+}
+
+.unfield-link:hover{
+    background-color: rgba(0, 0, 0, 0.08);
+}
+
+.carousel{
+    width: 100%;
+}
+
+.title{
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 7%;
+}
+
+.left-title{
+    display: flex;
+    position: relative;
+    margin-left: 8%;
+    flex-shrink: 0;
+    animation: slideright 1.5s ease forwards;
+}
+
+@keyframes slideright {
+    0% {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.sctickers-main{
+    width: 25rem;
+    height: auto;
+    position: relative;
+    flex-shrink: 0;
+    z-index: 2;
+}
+
+.sctickers-1{
+    width: 38.8rem;
+    height: auto !important;
+    position: absolute;
+    margin-top: -45%;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    z-index: 1;
+    opacity: 0;
+    animation: fadein1 1s ease forwards;
+    animation-delay: 1.2s;
+}
+
+@keyframes fadein1 {
+    0% {
+        transform: translateX(-50%) translateY(0);
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-15%);
+    }
+}
+
+.right-title{
+    text-align: center;
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    font-weight: bold;
+    margin-left: auto;
+    margin-right: 8%;
+    animation: fadetitle 1.5s ease forwards;
+}
+
+@keyframes fadetitle {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.right-title span{
+    opacity: 0;
+    animation: slideleft 1s ease forwards;
+    animation-delay: 1.35s;
+}
+
+@keyframes slideleft {
+    0% {
+        opacity: 0;
+        transform: translateY(-20%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.highlight{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 8%;
+    margin-top: 5%;
+    gap: 2rem;
+    align-items: center;
+}
+
+.hleft{
+    width: 100%;
+    width: 85vh;
+    height: auto !important;
+    flex-shrink: 0 !important;
+}
+
+.hright{
+    width: 100%;
+    width: 50vh;
+    height: auto !important;
+    flex-shrink: 0 !important;
+}
+
+.hleft,
+.hright{
+    opacity: 0;
+    transform: translateY(30%);
+    transition: all 1s ease;
+}
+
+.hleft.visible,
+.hright.visible{
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 1s ease;
+}
