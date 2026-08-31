@@ -69,6 +69,7 @@ body {
     text-transform: uppercase;
     transition: color 0.3s ease-out;
     cursor: pointer;
+    text-align: center;
 }
 
 
@@ -106,140 +107,107 @@ body {
     background-color: rgba(0, 0, 0, 0.08);
 }
 
-.carousel{
-    width: 100%;
+@media (max-width: 1024px) {
+    .channel-link svg{
+        opacity: 0;
+    }
 }
 
-.title{
+.container{
+    max-width: 81.25rem;
     display: flex;
-    flex-wrap: nowrap;
-    width: 100%;
+    margin: 0 auto;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: space-between;
-    margin-top: 7%;
+    flex-wrap: nowrap;
+
+    margin-bottom: clamp(2rem, 4vw, 3.125rem);
+    font-weight: 700;
+    text-align: center;
+    margin-top: clamp(1.5rem, 3vw, 2.5rem);
+
+    animation: titleslide 1.5s ease forwards;
 }
 
-.left-title{
-    display: flex;
-    position: relative;
-    margin-left: 8%;
-    flex-shrink: 0;
-    animation: slideright 1.5s ease forwards;
-}
-
-@keyframes slideright {
+@keyframes titleslide {
     0% {
         opacity: 0;
-        transform: translateX(-100%);
+        transform: translateY(-8vh);
     }
     100% {
         opacity: 1;
-        transform: translateX(0);
+        transform: translateY(0);
     }
 }
 
-.sctickers-main{
-    width: 25rem;
+.cards{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: clamp(2rem, 5vw, 4rem);
+}
+
+.left-card{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 5%;
+}
+
+.img-left{
+    width: clamp(20rem, 27vw, 30rem);
+    height: auto;
+}
+
+.card-preview{
+    width: 100%;
+    height: clamp(18rem, 28vw, 21.875rem);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.card-text{
+    text-align: center;
+    font-weight: 700;
+    font-size: clamp(1rem, 3vw, 1.5rem);
+}
+
+.center-card{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.img-1{
+    width: clamp(35rem, 40.8vw, 50rem);
+    height: auto;
+    position: absolute;
+    left: 50%;
+    top: 12%;
+    right: 50%;
+    transform: translateX(-50.3%);
+}
+
+.img-main{
+    width: clamp(22rem, 30vw, 25rem);
     height: auto;
     position: relative;
-    flex-shrink: 0;
-    z-index: 2;
 }
 
-.sctickers-1{
-    width: 38.8rem;
-    height: auto !important;
-    position: absolute;
-    margin-top: -45%;
-    left: 50%;
-    transform: translateX(-50%) translateY(0);
-    z-index: 1;
-    opacity: 0;
-    animation: fadein1 1s ease forwards;
-    animation-delay: 1.2s;
-}
-
-@keyframes fadein1 {
-    0% {
-        transform: translateX(-50%) translateY(0);
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(-50%) translateY(-15%);
-    }
-}
-
-.right-title{
-    text-align: center;
-    font-size: clamp(1.5rem, 5vw, 3rem);
-    font-weight: bold;
-    margin-left: auto;
-    margin-right: 8%;
-    animation: fadetitle 1.5s ease forwards;
-}
-
-@keyframes fadetitle {
-    0% {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-    100% {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-.right-title span{
-    opacity: 0;
-    animation: slideleft 1s ease forwards;
-    animation-delay: 1.35s;
-}
-
-@keyframes slideleft {
-    0% {
-        opacity: 0;
-        transform: translateY(-20%);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-.highlight{
+.right-card{
     display: flex;
-    justify-content: space-between;
-    padding: 0 8%;
-    margin-top: 5%;
-    gap: 2rem;
-    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
-.hleft{
-    width: 100%;
-    width: 85vh;
-    height: auto !important;
-    flex-shrink: 0 !important;
-}
-
-.hright{
-    width: 100%;
-    width: 50vh;
-    height: auto !important;
-    flex-shrink: 0 !important;
-}
-
-.hleft,
-.hright{
-    opacity: 0;
-    transform: translateY(30%);
-    transition: all 1s ease;
-}
-
-.hleft.visible,
-.hright.visible{
-    opacity: 1;
-    transform: translateY(0);
-    transition: all 1s ease;
+.img-right{
+    width: clamp(25rem, 33vw, 30rem);
 }

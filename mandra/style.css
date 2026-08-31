@@ -68,6 +68,7 @@ body{
     text-transform: uppercase;
     transition: color 0.3s ease-out;
     cursor: pointer;
+    text-align: center;
 }
 
 
@@ -116,7 +117,7 @@ body{
     font-family: "SoDo Sans SemiBold", Arial, Helvetica, Helvetica Neue, sans-serif;
     text-transform: uppercase;
     font-weight: 600;
-    font-size: 45px;
+    font-size: 2.5rem;
     color: black;
     animation: fadein-name 1.7s forwards;
 }
@@ -154,7 +155,7 @@ body{
 
 .title div{
     font-weight: bold;
-    font-size: 45px;
+    font-size: 3rem;
     text-align: center;
     padding: 5px 20px 5px 20px;
 }
@@ -357,4 +358,107 @@ body{
     100%{
         transform: translateX(calc(-50%));
     }
+}
+
+@media (max-width: 1024px){
+    .channel-link svg{
+        opacity: 0;
+    }
+}
+
+.mobile{
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .title div{
+        font-size: 1.8rem;
+    }
+
+    .title-name div{
+        font-size: 2rem;
+    }
+    .desktop {
+        display: none !important;
+    } 
+    .mobile{
+        display: flex !important;
+    }
+}
+
+.burger {
+    display: flex;
+    align-items: center;
+    margin-right: 5%;
+    width: 40px;
+    height: 40px;
+}
+
+.closebtn{
+    display: none;
+    color: rgb(173, 173, 173);
+    transition: all 0.3s ease;
+    z-index: 99999;
+}
+
+.close-icon.visible {
+    display: flex;
+}
+
+.openbtn{
+    transition: all 0.3s ease;
+    color: black;
+}
+
+.openbtn:hover{
+    color: rgb(173, 173, 173);
+}
+
+.openbtn.hidden{
+    display: none;
+}
+
+.closebtn.visible{
+    display: flex;
+}
+
+.menu{
+    display: none !important;
+    gap: 10px;
+    padding: 5px 20px 5px 20px;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+
+
+    transform: translateX(-100vw);
+    transition: transform 0.4s ease, visibility 0.4s ease;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.menu.visible {
+    display: flex !important;
+    transform: translateX(0);
+    pointer-events: all;
+    visibility: visible;
+}
+
+.moblink{
+    margin-top: 20%;
+    color: rgb(173, 173, 173);
+    font-size: 2rem;
+    text-align: left;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.moblink:hover{
+    color: rgba(219, 143, 255, 0.86);
 }
