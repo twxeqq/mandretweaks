@@ -49,11 +49,13 @@ document.addEventListener('DOMContentLoaded', function(){
             openbtn.classList.add('hidden');
             closebtn.classList.add('visible');
             menu.classList.add('visible');
+            document.body.style.overflow = 'hidden';
         });
         closebtn.addEventListener('click', function(){
             openbtn.classList.remove('hidden');
             closebtn.classList.remove('visible');
             menu.classList.remove('visible')
+            document.body.style.overflow = ''
         });
     }
 
