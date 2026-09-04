@@ -162,7 +162,7 @@ body {
 }
 
 .img-left{
-    width: clamp(20rem, 27vw, 30rem);
+    width: clamp(15rem, 18.25vw, 23.85rem);
     height: auto;
 }
 
@@ -184,22 +184,24 @@ body {
     display: flex;
     justify-content: center;
     flex-direction: column;
+    position: relative;
+    width: 100%;
+    max-width: 26.75rem;
 }
-
 .img-1{
-    width: clamp(35rem, 40.8vw, 50rem);
+    width: clamp(12.75rem, 40.8vw, 50.25rem);
     height: auto;
     position: absolute;
     left: 50%;
-    top: 12%;
+    bottom: 0;
     right: 50%;
-    transform: translateX(-50.3%);
+    transform: translateX(-50%);
 }
 
 .img-main{
-    width: clamp(22rem, 30vw, 25rem);
+    width: clamp(16.25rem, 26.25vw, 26.75rem);
     height: auto;
-    position: relative;
+    z-index: 999;
 }
 
 .right-card{
@@ -209,5 +211,5 @@ body {
 }
 
 .img-right{
-    width: clamp(25rem, 33vw, 30rem);
+    width: clamp(18rem, 27.5vw, 24.75rem);
 }
