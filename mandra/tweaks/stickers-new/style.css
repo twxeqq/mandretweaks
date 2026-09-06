@@ -172,6 +172,7 @@ body {
     display: flex;
     align-items: flex-end;
     justify-content: center;
+    position: relative;
 }
 
 .card-text{
@@ -189,13 +190,13 @@ body {
     max-width: 26.75rem;
 }
 .img-1{
-    width: clamp(12.75rem, 40.8vw, 50.25rem);
+    width: clamp(25.27rem, 40.81vw, 41.59rem);
     height: auto;
     position: absolute;
     left: 50%;
     bottom: 0;
     right: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(18%);
 }
 
 .img-main{
