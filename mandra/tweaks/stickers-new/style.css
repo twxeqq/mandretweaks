@@ -159,6 +159,21 @@ body {
     justify-content: center;
     flex-direction: column;
     margin-left: 5%;
+    animation: leftcard 1.5s ease-out;
+}
+
+@keyframes leftcard {
+    0% {
+        transform: translateX(20rem) scale(0.9);
+        opacity: 0;
+    }
+    60% {
+        transform: translateX(2rem) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(0);
+    }
 }
 
 .img-left{
@@ -178,7 +193,20 @@ body {
 .card-text{
     text-align: center;
     font-weight: 700;
+    opacity: 0;
     font-size: clamp(1rem, 3vw, 1.5rem);
+    animation: cardtext 1.2s ease-out forwards 1.3s;
+}
+
+@keyframes cardtext{
+    0% {
+        opacity: 0;
+        transform: translateY(-5rem);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 .center-card{
@@ -197,6 +225,20 @@ body {
     bottom: 0;
     right: 50%;
     transform: translateX(-50%) translateY(18%);
+    animation: centercard 1.5s ease-out;
+}
+
+@keyframes centercard {
+    0% {
+        opacity: 0;
+        bottom: -5rem;
+    }
+    60% {
+        opacity: 1;
+    }
+    100% {
+        bottom: 0;
+    }
 }
 
 .img-main{
@@ -209,6 +251,21 @@ body {
     display: flex;
     justify-content: center;
     flex-direction: column;
+    animation: rightcard 1.5s ease-out;
+}
+
+@keyframes rightcard {
+    0% {
+        transform: translateX(-20rem) scale(0.9);
+        opacity: 0;
+    }
+    60% {
+        transform: translateX(-2rem) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(0);
+    }
 }
 
 .img-right{
