@@ -177,7 +177,7 @@ body {
 }
 
 .img-left{
-    width: clamp(15rem, 18.25vw, 23.85rem);
+    width: clamp(15rem, 24.75vw, 25.85rem);
     height: auto;
 }
 
