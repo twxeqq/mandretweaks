@@ -8,6 +8,7 @@
         <title>Твики для стикеров</title>
     </head>
     <body>
+        <div class="scrollprogress" id="progressbar"></div>
         <div class="navbar">
             <div class="navbar-left">
                 <img src="assets/logo.png">
@@ -22,9 +23,32 @@
                 </div>   
                 <a href="https://t.me/sterepando" class="filled-link desktop" target="_blank">Разработчик</a>
                 <a href="https://t.me/swagnonher/338" class="unfield-link desktop" target="_blank">Поддержать</a>
+
+                <!--mobile navbar-->
+                <div class="burger mobile">
+                    <div class="openbtn">
+                        <svg class="open-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://w3.org">
+                          <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="closebtn">
+                        <svg class="close-icon" xmlns="http://w3.org" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <line x1="18" y1="6" x2="6" y2="18"></line>
+                          <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </div>
+                </div>   
             </div>
         </div>
-        <main class="container">
+        <div class="menu mobile">
+            <div class="links">
+                <a href="https://t.me/swagnonher" target="_blank" class="moblink">Официальный канал</a> 
+                <a href="https://t.me/sterepando" class="moblink" target="_blank">Разработчик</a>
+                <a href="https://t.me/swagnonher/338" class="moblink" target="_blank">Поддержать</a>
+            </div>    
+        </div>
+        <!--end mobile navbar-->
+        <main class="container desktop">
             <h1 class="title">Добавляет новые возможности<br>в меню предпросмотра стикеров</h1>
             <div class="cards">
                 <div class="left-card">
@@ -48,6 +72,25 @@
                 </div>
             </div>
         </main>
+        <div class="scroll-selection mobile">
+            <main class="container-m mobile sticky-w">
+                <h1 class="title">Добавляет новые возможности<br>в меню предпросмотра стикеров</h1>
+                <div class="carousel">
+                    <div class="m-cards">
+                        <img src="assets/stickers-main.png" class="m-card" alt="твик">
+                        <p class="card-text">Копируйте стикеры в<br>свои стикерпаки</p>
+                    </div>
+                    <div class="m-cards">
+                        <img src="assets/stickers-left.png" class="m-card" alt="копирование">
+                        <p class="card-text">Копируйте стикеры в<br>свои стикерпаки</p>
+                    </div>
+                    <div class="m-cards">
+                        <img src="assets/stickers-right.png" class="m-card" alt="меню">
+                        <p class="card-text">Отправляйте без привязки к<br>стикерпаку и сохраняйте<br>в загрузки</p>
+                    </div>
+                </div>
+            </main>
+        </div> 
         <script src="script.js"></script>
     </body>
 </html>

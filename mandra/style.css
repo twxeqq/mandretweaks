@@ -348,6 +348,9 @@ body{
     .mobile{
         display: flex !important;
     }
+    .scroll-track{
+        animation: scroll-anim 10s linear infinite;
+    }
 }
 
 .burger {

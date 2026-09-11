@@ -1,4 +1,3 @@
-
 function updateDecoAnimation() {
     const scrollY = window.scrollY;
     const decocontainer = document.querySelector('.deco-imgs');

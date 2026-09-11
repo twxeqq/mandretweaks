@@ -4,7 +4,7 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    overflow-x: hidden;
+    overflow-x: clip;
     font-family: 'Google Sans', 'Oppen Sans', 'Roboto';
     width: 100%;
 }
@@ -271,3 +271,203 @@ body {
 .img-right{
     width: clamp(18rem, 27.5vw, 24.75rem);
 }
+
+/* mobile */
+
+.scrollprogress{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    width: 0%;
+    background: rgba(219, 143, 255, 0.86);
+    backdrop-filter: blur(10px);
+    z-index: 9999999999;
+    transition: width 0.05s ease-out;
+    opacity: 0;
+}
+
+.scroll-selection {
+    height: 250vh;
+    position: relative;
+    display: block !important;
+}
+
+.sticky-w{
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.mobile{
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .desktop{
+        display: none !important;
+    }
+    .mobile{
+        display: flex !important;
+    }
+    .title{
+        font-size: 1.5rem;
+        margin-bottom: clamp(4rem, 8vw, 7.5rem);
+        margin-top: clamp(2rem, 4vw, 4rem);
+    }
+    .card-text{
+        font-size: 1rem;
+    }
+    .scrollprogress{
+        opacity: 1;
+    }
+}
+
+.container-m{
+    margin-bottom: clamp(20rem, 40vw, 32.85rem);
+    max-width: 100%;
+    display: flex;
+    margin: 0 auto;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.burger {
+    display: flex;
+    align-items: center;
+    margin-right: 5%;
+    width: 40px;
+    height: 40px;
+}
+
+.closebtn{
+    display: flex;
+    color: rgb(173, 173, 173);
+    transition: all 0.3s ease;
+    z-index: 99999;
+    transform: rotate(0deg);
+
+    pointer-events: none;
+    opacity: 0;
+    transition:
+        opacity 0.6s ease,
+        transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.close-icon.visible {
+    display: flex;
+}
+
+.openbtn{
+    transition: all 0.3s ease;
+    color: black;
+}
+
+.openbtn:hover{
+    color: rgb(173, 173, 173);
+}
+
+.openbtn.hidden{
+    display: none;
+}
+
+.closebtn.visible{
+    display: flex;
+    opacity: 1;
+    pointer-events: auto;
+    transform: rotate(-90deg);
+}
+
+.menu{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+
+
+    transform: translateX(100vw);
+    transition: transform 0.4s ease, visibility 0.4s ease;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.menu.visible {
+    display: flex;
+    transform: translateX(0);
+    pointer-events: auto;
+    visibility: visible;
+}
+
+.links{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20%;
+}
+
+.moblink{
+    color: rgb(173, 173, 173);
+    font-size: 1.5rem;
+    text-align: left;
+    text-decoration: none;
+    padding: 20px 5% 20px 5%;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid rgb(73, 73, 73);
+}
+
+.moblink:first-child{
+    border-top: 1px solid rgb(73, 73, 73);
+}
+
+.moblink:hover{
+    color: rgba(219, 143, 255, 0.86);
+}
+.carousel{
+    width: 100%;
+    overflow-x: auto;
+    margin: 3rem auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    scrollbar-width: none;
+    padding: 0 10vw;
+    box-sizing: border-box;
+}
+
+.carousel::-webkit-scrollbar{
+    display: none;
+}
+
+.m-cards{
+    flex: 0 0 80vw;
+    max-width: 20rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.m-card{
+    width: 100%;
+    height: auto;
+    max-height: 13.75rem;
+    object-fit: contain;
+}
+
+.m-cards .card-text{
+    opacity: 1;
+    animation: none;
+    margin-top: 1.2rem;
+    font-size: 1.1rem;
+}
+

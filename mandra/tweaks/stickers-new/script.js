@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // mobile menu
+
 document.addEventListener('DOMContentLoaded', function(){
     const openbtn = document.querySelector('.openbtn');
     const closebtn = document.querySelector('.closebtn');
@@ -24,12 +25,46 @@ document.addEventListener('DOMContentLoaded', function(){
             openbtn.classList.add('hidden');
             closebtn.classList.add('visible');
             menu.classList.add('visible');
+            document.body.style.overflow = 'hidden';
         });
         closebtn.addEventListener('click', function(){
             openbtn.classList.remove('hidden');
             closebtn.classList.remove('visible');
             menu.classList.remove('visible')
+            document.body.style.overflow = ''
         });
     }
 
 });
+
+// scroll
+
+function onscroll() {
+    const scrolltop = window.scrollY || document.documentElement.scrollTop;
+
+    const progressbar = document.getElementById('progressbar');
+    const totalheight = document.documentElement.scrollHeight - window.innerHeight;
+    
+    if (progressbar && totalheight > 0) {
+        const progress = (scrolltop / totalheight) * 100;
+        progressbar.style.width = `${progress}%`;
+    }
+
+    const section = document.querySelector('.scroll-selection');
+    const carousel = document.querySelector('.carousel');
+
+    if (section && carousel) {
+        const rect = section.getBoundingClientRect();
+        const totalscrolldis = section.offsetHeight - window.innerHeight;
+        
+        const scrolledin = -rect.top;
+
+        const progress = Math.min(Math.max(scrolledin / totalscrolldis, 0), 1);
+        
+        const maxscroll = carousel.scrollWidth - carousel.clientWidth;
+        
+        carousel.scrollLeft = progress * maxscroll;
+    }
+}
+
+window.addEventListener('scroll', onscroll);
