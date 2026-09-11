@@ -314,10 +314,28 @@ body {
     .mobile{
         display: flex !important;
     }
-    .title{
+    .scroll-selection,
+    .scroll-section {
+        display: block !important;
+        height: 250vh;
+        position: relative;
+    }
+    .container-m.sticky-w {
+        justify-content: flex-start !important;
+        top: 70px;
+        height: calc(100vh - 70px);
+        padding-top: 1.5rem;
+        box-sizing: border-box;
+    }
+    .title {
         font-size: 1.5rem;
-        margin-bottom:  0.5rem;
-        margin-top: clamp(1rem, 3vw, 3.5rem);
+        margin-top: 0; 
+        margin-bottom: 0.5rem;  
+        flex-shrink: 0;
+        animation: none;
+    }
+    .carousel {
+        margin: 0.5rem auto 0 auto; 
     }
     .card-text{
         font-size: 1rem;
@@ -331,7 +349,7 @@ body {
         z-index: 10000;
         background-color: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(10px);
-        width: 1005;
+        width: 100%;
     }
 }
 
@@ -341,7 +359,6 @@ body {
     display: flex;
     margin: 0 auto;
     flex-direction: column;
-    justify-content: center;
 }
 
 .burger {
