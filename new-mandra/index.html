@@ -25,7 +25,7 @@
         <main class="container">
             <div class="conntainer-left">
                 <h1 class="title-h">Твики — делают ExteraGram<br>таким, каким он<br><span>должен быть</span></h1>
-                <p class="description">Расширяет фенкционал телеграма, делая<br>многие действия легче и быстрее.<br>Различные улучшения для UI-UX</p>
+                <p class="description">Расширяет функционал телеграма, делая<br>многие действия легче и быстрее.<br>Различные улучшения для UI-UX</p>
             </div>
             <div class="container-right">
                 <div class="deco-imgs">
@@ -36,5 +36,29 @@
                 </div>
             </div>
         </main>
+        <section class="catalog-container">
+            <h1 class="catalog-title">Каталог</h1>
+            <div class="carousel-wrapper">
+                <button class="carousel-btn prev" onclick="moveCarousel(-1)" aria-label="←">&#10094;</button>
+
+                <div class="carousel" id="catalogCarousel">
+                    <a href="" class="carousel-item">
+                        <img src="assets/ios-panel.jpg" class="carousel-img" alt="ios-panel">
+                    </a>
+                    <a href="" class="carousel-item">
+                        <img src="assets/md3-avatarky.jpg" class="carousel-img" alt="md3-avatarky">
+                    </a>
+                    <a href="" class="carousel-item">
+                        <img src="assets/outline-switches.jpg" class="carousel-img" alt="outline-switches">
+                    </a>
+                    <a href="" class="carousel-item">
+                        <img src="assets/top-blur.jpg" class="carousel-img" alt="carousel-img">
+                    </a>
+                </div>
+
+                <button class="carousel-btn next" onclick="moveCarousel(1)" aria-label="→">&#10095;</button>
+            </div>    
+        </section>
+        <script src="script.js"></script>
     </body>
 </html>
