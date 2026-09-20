@@ -14,15 +14,36 @@
                 <h1 class="title">mandretweaks</h1>
             </div>
             <div class="navbar-right">
-                <div class="links">
+                <div class="links desktop">
                     <a href="https://t.me/swagnonher" class="channel-link">официальный канал</a>
                     <a href="https://t.me/sterepando" class="profile-link"><span>разработчик</span></a>
                     <a href="https://t.me/swagnonher/388" class="sup-link">поддержать</a>
                 </div>
-                </div>
+
+                 <!--mobile navbar-->
+                <div class="burger mobile">
+                    <div class="openbtn">
+                        <svg class="open-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://w3.org">
+                          <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="closebtn">
+                        <svg class="close-icon" xmlns="http://w3.org" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <line x1="18" y1="6" x2="6" y2="18"></line>
+                          <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </div>
+                </div>  
             </div>
         </div>
-        <main class="container">
+        <div class="menu mobile">
+            <div class="links-m">
+                <a href="https://t.me/swagnonher" target="_blank" class="moblink">Официальный канал</a> 
+                <a href="https://t.me/sterepando" class="moblink" target="_blank">Разработчик</a>
+                <a href="https://t.me/swagnonher/388" class="moblink" target="_blank">Поддержать</a>
+            </div>    
+        </div>
+        <main class="container desktop">
             <div class="conntainer-left">
                 <h1 class="title-h">Твики — делают ExteraGram<br>таким, каким он<br><span>должен быть</span></h1>
                 <p class="description">Расширяет функционал телеграма, делая<br>многие действия легче и быстрее.<br>Различные улучшения для UI-UX</p>
@@ -36,7 +57,7 @@
                 </div>
             </div>
         </main>
-        <section class="catalog-container">
+        <section class="catalog-container desktop">
             <h1 class="catalog-title">Каталог</h1>
             <div class="carousel-wrapper">
                 <button class="carousel-btn prev" onclick="moveCarousel(-1)" aria-label="←">&#10094;</button>
@@ -52,6 +73,9 @@
                         <img src="assets/outline-switches.jpg" class="carousel-img" alt="outline-switches">
                     </a>
                     <a href="" class="carousel-item">
+                        <img src="assets/custom-fonts.jpg" class="carousel-img" alt="custom fots">
+                    </a>
+                    <a href="" class="carousel-item">
                         <img src="assets/top-blur.jpg" class="carousel-img" alt="carousel-img">
                     </a>
                 </div>
@@ -59,6 +83,10 @@
                 <button class="carousel-btn next" onclick="moveCarousel(1)" aria-label="→">&#10095;</button>
             </div>    
         </section>
+
+        <main class="container-m mobile">
+            <h1 class="title-h-m">Твики — делают ExteraGram<br>таким, каким он<br><span>должен быть</span></h1>
+        </main>
         <script src="script.js"></script>
     </body>
 </html>

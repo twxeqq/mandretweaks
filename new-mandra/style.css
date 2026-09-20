@@ -47,15 +47,20 @@ body{
     gap: 5px;
 }
 
-.links a{
+.links a {
     font-weight: 700;
     font-size: 1.35rem;
     text-decoration: none;
     color: rgb(225, 225, 225);
     background-color: rgb(34, 34, 39);
-    padding: 5px 15px 5px 15px;
+    padding: 5px 15px;
     border: 1px solid rgb(59, 59, 59);
     z-index: 2;
+    
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .channel-link{
@@ -63,6 +68,7 @@ body{
     position: relative;
     overflow: hidden;
     z-index: 1;
+    text-align: center;
 }
 
 .channel-link::before{
@@ -127,15 +133,17 @@ body{
     transform: translateY(0);
 }
 
-.sup-link{
+.sup-link {
     border-radius: 16px 50px 50px 16px;
-    transition: background-color 0.4s ease-out, border-radius 0.2s ease-out, border 0.2s ease-out;
+    transition: background-color 0.4s ease-out, 
+                border-radius 0.25s ease-out, 
+                border-color 0.25s ease-out;
 }
 
-.sup-link:hover{
+.sup-link:hover {
     background-color: rgba(208, 66, 227, 0.877);
     border-radius: 50px;
-    border: 0px solid rgb(34, 34, 39);
+    border-color: transparent;
 }
 
 
@@ -280,6 +288,16 @@ body{
     font-size: clamp(3.75rem, 4.5vw, 5rem);
     margin: 0 auto 2.5rem auto;
     text-align: center;
+
+    /* анимация */
+    opacity: 0;
+    transform: translateY(3rem) scale(0.95);
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.catalog-title.visible{
+    transform: translateY(0) scale(1);
+    opacity: 1;
 }
 
 .carousel-wrapper{
@@ -295,7 +313,7 @@ body{
 .carousel{
     display: flex;
     gap: 20px;
-    overflow-x: auto;
+    overflow-x: hidden;
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
@@ -355,6 +373,8 @@ body{
     outline: 1px solid transparent;
 
     transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+    pointer-events: none;
 }
 
 .carousel-item:hover .carousel-img {
@@ -395,4 +415,133 @@ body{
 
 .carousel-btn.next {
     right: -40px;
+}
+
+.mobile{
+    display: none !important;
+}
+
+@media (max-width: 760px) {
+    .desktop{
+        display: none !important;
+    }
+    .mobile{
+        display: flex !important;
+    }
+}
+
+.burger {
+    display: flex;
+    align-items: center;
+    margin-right: 5%;
+    width: 40px;
+    height: 40px;
+}
+
+.closebtn{
+    display: flex;
+    color: rgb(173, 173, 173);
+    transition: all 0.3s ease;
+    z-index: 99999;
+    transform: rotate(0deg);
+
+    pointer-events: none;
+    opacity: 0;
+    transition:
+        opacity 0.6s ease,
+        transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.close-icon.visible {
+    display: flex;
+}
+
+.openbtn{
+    transition: all 0.3s ease;
+    color: rgb(225, 225, 225);
+}
+
+.openbtn:hover{
+    color: rgb(173, 173, 173);
+}
+
+.openbtn.hidden{
+    display: none;
+}
+
+.closebtn.visible{
+    display: flex;
+    opacity: 1;
+    pointer-events: auto;
+    transform: rotate(-90deg);
+}
+
+.menu{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+
+
+    transform: translateX(100vw);
+    transition: transform 0.4s ease, visibility 0.4s ease;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.menu.visible {
+    display: flex;
+    transform: translateX(0);
+    pointer-events: auto;
+    visibility: visible;
+}
+
+.links-m{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20%;
+}
+
+.moblink{
+    color: rgb(173, 173, 173);
+    font-size: 1.5rem;
+    text-align: left;
+    text-decoration: none;
+    padding: 20px 5% 20px 5%;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid rgb(73, 73, 73);
+}
+
+.moblink:first-child{
+    border-top: 1px solid rgb(73, 73, 73);
+}
+
+.moblink:hover{
+    color: rgba(219, 143, 255, 0.86);
+}
+
+.container--m{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.title-h-m{
+    color: rgb(225, 225, 225);
+    font-weight: 600;
+    font-size: clamp(1.5rem, 1.85vw, 2.95rem);
+}
+
+.title-h-m span{
+    color: rgb(208, 66, 227);
+    font-size: clamp(3.45rem, 4.75vw, 5.65rem);
 }
