@@ -8,6 +8,7 @@
         <title>MandreTweaks</title>
     </head>
     <body>
+        <div class="scrollprogress" id="progressbar"></div>
         <div class="navbar">
             <div class="navbar-left">
                 <img src="assets/logo.png" alt="logo" class="logo">
@@ -83,9 +84,20 @@
                 <button class="carousel-btn next" onclick="moveCarousel(1)" aria-label="→">&#10095;</button>
             </div>    
         </section>
-
         <main class="container-m mobile">
-            <h1 class="title-h-m">Твики — делают ExteraGram<br>таким, каким он<br><span>должен быть</span></h1>
+            <div class="sticky-view">
+                <div class="container-title">
+                    <h1 class="title-h-m">Твики — делают ExteraGram<br>таким, каким он<br><span>должен быть</span></h1>
+                    <p class="description-m">Расширяет функционал телеграма, делая<br>многие действия легче и быстрее.<br>Различные улучшения для UI-UX</p>
+                </div>
+
+                <div class="deco-imgs-m">
+                    <img src="assets/tweaks-phone.png" class="phone-m" alt="телефон">
+                    <img src="assets/plugin-deco-1.png" class="custom-fonts-m" alt="custom fonts">
+                    <img src="assets/plugin-deco-2.png" class="outline-m" alt="outline switches">
+                    <img src="assets/plugin-deco-3.png" class="md3-ava-m" alt="md3 ававтарки">
+                </div>
+            </div>  
         </main>
         <script src="script.js"></script>
     </body>
