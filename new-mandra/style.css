@@ -1,11 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
-body{
-    background-color: rgb(25, 25, 25);
+html, body {
     width: 100%;
     min-width: 100%;
-    overflow-x: hidden;
-    font-family: 'Google Sans', 'Oppen Sans', 'Roboto';
+    /* clip не ломает fixed и sticky в мобильных браузерах */
+    overflow-x: clip; 
+}
+
+body {
+    background-color: rgb(25, 25, 25);
+    font-family: 'Google Sans', 'Open Sans', 'Roboto', sans-serif;
+    margin: 0;
 }
 
 .navbar{
@@ -437,13 +442,12 @@ body{
         font-size: 1.2rem;
     }
     .navbar{
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
         box-sizing: border-box;
         padding-top: env(safe-area-inset-top, 0px);
-
         z-index: 10000;
         background-color: rgba(25, 25, 25, 0.85);
         backdrop-filter: blur(10px);
@@ -455,8 +459,8 @@ body{
     }
     .scrollprogress {
         display: block;
-        position: fixed;
-        top: var(--nav-h, 60px);
+        position: fixed !important;
+        top: var(--nav-h, 60px) !important;
         left: 0;
         height: 3px;
         width: 0%;
