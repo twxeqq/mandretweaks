@@ -437,14 +437,21 @@ body{
         font-size: 1.2rem;
     }
     .navbar{
-        position: sticky;
+        position: fixed;
         top: 0;
+        left: 0;
+        width: 100%;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+
         z-index: 10000;
         background-color: rgba(25, 25, 25, 0.85);
         backdrop-filter: blur(10px);
-        transition: background-color 0.35s ease,
-        backdrop-filer 0.35s ease,
-        -webkit-backdrop-filter 0.35s ease;
+        -webkit-backdrop-filter: blur(10px);
+
+        transition: background-color 0.35s ease, 
+                    backdrop-filter 0.35s ease, 
+                    -webkit-backdrop-filter 0.35s ease;
     }
     .scrollprogress {
         display: block;
@@ -457,8 +464,8 @@ body{
         z-index: 100005;
         pointer-events: none;
         box-shadow: 0 0 8px rgba(208, 66, 227, 0.6);
-        transition: width 0.05s ease-out,
-        opacity 0.35s ease;
+        opacity: 1;
+        transition: width 0.05s ease-out, opacity 0.35s ease;
     }
 }
 
