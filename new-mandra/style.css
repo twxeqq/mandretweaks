@@ -235,7 +235,7 @@ body{
     position: absolute;
     top: 40%;
     left: 0;
-    width: clamp(14.5rem, 15.25vw, 21.75rem);
+    width: clamp(14.5rem, 15.25vw, 19.75rem);
     transform: rotate(27deg) translateX(-45%);
     animation: outline 1.2s ease forwards;
 }
@@ -256,7 +256,7 @@ body{
     position: absolute;
     top: 35%;
     left: 0;
-    width: clamp(14.5rem, 14.25vw, 21.75rem);
+    width: clamp(14.5rem, 14.25vw, 19.75rem);
     transform: rotate(-23deg) translateX(50%);
     z-index: 40;
     animation: md3ava 1.5s ease forwards;
