@@ -18,6 +18,7 @@ body{
     display: flex;
     align-items: center;
     max-width: 15rem;
+    transition: opacity 0.35s ease;
 }
 
 .logo{
@@ -421,6 +422,10 @@ body{
     display: none !important;
 }
 
+.scrollprogress{
+    display: none;
+}
+
 @media (max-width: 760px) {
     .desktop{
         display: none !important;
@@ -437,10 +442,30 @@ body{
         z-index: 10000;
         background-color: rgba(25, 25, 25, 0.85);
         backdrop-filter: blur(10px);
+        transition: background-color 0.35s ease,
+        backdrop-filer 0.35s ease,
+        -webkit-backdrop-filter 0.35s ease;
     }
     .scrollprogress {
+        display: block;
+        position: fixed;
         top: var(--nav-h, 60px);
+        left: 0;
+        height: 3px;
+        width: 0%;
+        background: rgba(219, 143, 255, 0.86);
+        z-index: 100005;
+        pointer-events: none;
+        box-shadow: 0 0 8px rgba(208, 66, 227, 0.6);
+        transition: width 0.05s ease-out,
+        opacity 0.35s ease;
     }
+}
+
+body.menu-open .scrollprogress {
+    opacity: 0 !important;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
 }
 
 .burger {
@@ -674,20 +699,4 @@ body.menu-open .navbar-left {
 
 .deco-imgs-m.show .md3-ava-m{
     animation: md3ava 1.5s ease forwards;
-}
-
-/* scroll progress */
-
-.scrollprogress {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 3px;
-    width: 0%;
-    background: rgb(208, 66, 227);
-    z-index: 100005;
-    transition: width 0.05s ease-out;
-    opacity: 1;
-    pointer-events: none;
-    box-shadow: 0 0 8px rgba(208, 66, 227, 0.6);
 }

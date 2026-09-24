@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function(){
         track.scrollLeft = progress * maxScroll;
 
         if (deco) {
-            deco.classList.toggle('show', progress >= 0.98);
+            deco.classList.toggle('show', progress >= 0.5);
         }
     }
 
@@ -106,18 +106,16 @@ document.addEventListener('DOMContentLoaded', function(){
     const progressbar = document.getElementById('progressbar');
     if (!progressbar) return;
 
-    function updateProgress() {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-        const totalHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    function updateprog() {
+        const scrolltop = window.scrollY || document.documentElement.scrollTop;
+        const totalheight = document.documentElement.scrollHeight - window.innerHeight;
 
-        if (totalHeight > 0) {
-            const progress = (scrollTop / totalHeight) * 100;
-            progressbar.style.width = `${Math.min(Math.max(progress, 0), 100)}%`;
+        if (totalheight > 0) {
+            progressbar.style.width = `${(scrolltop / totalheight) * 100}%`
         }
     }
 
-    window.addEventListener('scroll', updateProgress, { passive: true });
-    window.addEventListener('resize', updateProgress);
-    window.addEventListener('load', updateProgress);
-    updateProgress();
+    window.addEventListener('scroll', updateprog, {passive: true});
+    window.addEventListener('resize', updateprog);
+    window.addEventListener('load', updateprog);
 })();
