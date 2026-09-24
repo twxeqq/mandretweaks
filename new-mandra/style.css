@@ -665,11 +665,8 @@ body.menu-open .navbar-left {
     height: auto;
     z-index: 20;
     opacity: 0;
-    transition: opacity 0.8s ease;
-}
-
-.deco-imgs-m.show .phone-m{
-    opacity: 1;
+    transform: scale(0.96);
+    transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .custom-fonts-m,
@@ -678,36 +675,51 @@ body.menu-open .navbar-left {
     position: absolute;
     left: 0;
     opacity: 0;
+    will-change: transform, opacity;
 }
 
 .custom-fonts-m{
     top: 0;
     z-index: 1;
     width: 93%;
-    transform: translateX(3.5%) translateY(-50%);
+    transform: translateX(3.5%) translateY(80%) scale(0.9);
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
 }
 
 .outline-m{
     top: 40%;
     width: 100%;
-    transform: rotate(27deg) translateX(-45%);
+    transform: translateX(-15%) rotate(27deg) scale(0.9);
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
 }
 
 .md3-ava-m{
     top: 35%;
     width: 100%;
-    transform: rotate(-23deg) translateX(50%);
+    transform: rotate(-23deg) translateX(5%) scale(0.9);
     z-index: 40;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+}
+
+.deco-imgs-m.show .phone-m{
+    opacity: 1;
+    transform: scale(1);
 }
 
 .deco-imgs-m.show .custom-fonts-m{
-    animation: cust 1.2s ease forwards;
+    opacity: 1;
+    transform: translateX(3.5%) translateY(-50%) scale(1);
+    transition-delay: 0.08s;
 }
 
 .deco-imgs-m.show .outline-m{
-    animation: outline 1.2s ease forwards;
+    opacity: 1;
+    transform: translateX(-45%) rotate(27deg) scale(1);
+    transition-delay: 0.14s;
 }
 
 .deco-imgs-m.show .md3-ava-m{
-    animation: md3ava 1.5s ease forwards;
+    opacity: 1;
+    transform: rotate(-23deg) translateX(50%) scale(1);
+    transition-delay: 0.2s;
 }
