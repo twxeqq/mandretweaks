@@ -1,9 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
+
+*,
+*::before,
+*::after {
+    -webkit-tap-highlight-color: transparent;
+}
+
 html, body {
     width: 100%;
     min-width: 100%;
-    /* clip не ломает fixed и sticky в мобильных браузерах */
     overflow-x: clip; 
 }
 
@@ -350,6 +356,8 @@ body {
     background: transparent;
     border: none;
 
+    background: #ffffff;
+
     contain: layout paint;
     isolation: isolate;
 
@@ -368,7 +376,7 @@ body {
     object-fit: cover;
     display: block;
     border-radius: 16px;
-
+    object-position: top center;
     transform-origin: center center;
 
     will-change: transform;
