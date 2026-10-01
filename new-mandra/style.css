@@ -514,6 +514,19 @@ body {
     .carousel-btn.next{
         right: 4px;
     }
+    .carousel {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        overscroll-behavior-x: contain;
+        scrollbar-width: none;
+    }
+    .carousel::-webkit-scrollbar {
+        display: none;
+    }
+    .carousel-item {
+        scroll-snap-align: center;
+    }
 }
 
 body.menu-open .scrollprogress {
