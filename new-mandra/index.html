@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="style.css?v=1.0.1">
         <link href="https://db.onlinewebfonts.com/c/d7e8a95865396cddca89b00080d2cba6?family=SoDo+Sans+SemiBold" rel="stylesheet">
         <title>MandreTweaks</title>
     </head>
@@ -58,7 +58,24 @@
                 </div>
             </div>
         </main>
-        <section class="catalog-container desktop">
+        
+        <main class="container-m mobile">
+            <div class="sticky-view">
+                <div class="container-title">
+                    <h1 class="title-h-m">Твики — делают ExteraGram<br>таким, каким он<br><span>должен быть</span></h1>
+                    <p class="description-m">Расширяет функционал телеграма, делая<br>многие действия легче и быстрее.<br>Различные улучшения для UI-UX</p>
+                </div>
+
+                <div class="deco-imgs-m">
+                    <img src="assets/tweaks-phone.png" class="phone-m" alt="телефон">
+                    <img src="assets/plugin-deco-1.png" class="custom-fonts-m" alt="custom fonts">
+                    <img src="assets/plugin-deco-2.png" class="outline-m" alt="outline switches">
+                    <img src="assets/plugin-deco-3.png" class="md3-ava-m" alt="md3 ававтарки">
+                </div>
+            </div>  
+        </main>
+
+        <section class="catalog-container">
             <h1 class="catalog-title">Каталог</h1>
             <div class="carousel-wrapper">
                 <button class="carousel-btn prev" onclick="moveCarousel(-1)" aria-label="←">&#10094;</button>
@@ -82,23 +99,10 @@
                 </div>
 
                 <button class="carousel-btn next" onclick="moveCarousel(1)" aria-label="→">&#10095;</button>
-            </div>    
+            </div>
+            <div class="carousel-dots" id="carouselDots"></div>
         </section>
-        <main class="container-m mobile">
-            <div class="sticky-view">
-                <div class="container-title">
-                    <h1 class="title-h-m">Твики — делают ExteraGram<br>таким, каким он<br><span>должен быть</span></h1>
-                    <p class="description-m">Расширяет функционал телеграма, делая<br>многие действия легче и быстрее.<br>Различные улучшения для UI-UX</p>
-                </div>
-
-                <div class="deco-imgs-m">
-                    <img src="assets/tweaks-phone.png" class="phone-m" alt="телефон">
-                    <img src="assets/plugin-deco-1.png" class="custom-fonts-m" alt="custom fonts">
-                    <img src="assets/plugin-deco-2.png" class="outline-m" alt="outline switches">
-                    <img src="assets/plugin-deco-3.png" class="md3-ava-m" alt="md3 ававтарки">
-                </div>
-            </div>  
-        </main>
-        <script src="script.js"></script>
+        
+        <script src="script.js?v=1.0.1"></script>
     </body>
 </html>

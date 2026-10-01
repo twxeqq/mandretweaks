@@ -44,14 +44,12 @@ document.addEventListener('DOMContentLoaded', function(){
             closebtn.classList.add('visible');
             menu.classList.add('visible');
             document.body.classList.add('menu-open');
-            document.body.style.overflow = 'hidden';
         });
         closebtn.addEventListener('click', function(){
             openbtn.classList.remove('hidden');
             closebtn.classList.remove('visible');
             menu.classList.remove('visible');
             document.body.classList.remove('menu-open');
-            document.body.style.overflow = '';
         });
     }
 
@@ -119,3 +117,72 @@ document.addEventListener('DOMContentLoaded', function(){
     window.addEventListener('resize', updateprog);
     window.addEventListener('load', updateprog);
 })();
+
+
+// carousel-dots
+
+(function initcarnavig() {
+    const carousel = document.getElementById('catalogCarousel');
+    const dotscontainer = document.getElementById('carouselDots');
+    if (!carousel || !dotscontainer) return;
+
+    const cards = document.querySelectorAll('.carousel-item');
+    dotscontainer.innerHTML = '';
+    cards.forEach((card, index) => {
+        const dot = document.createElement('button');
+        dot.classList.add('dot');
+        dot.setAttribute('aria-label', `Слайд ${index + 1}`);
+        if (index === 0) dot.classList.add('active');
+
+        dot.addEventListener('click', () => {
+            card.scrollIntoView({
+                behavior: 'smooth',
+                inline: 'center',
+                block: 'nearest'
+            });
+        });
+        dotscontainer.appendChild(dot);
+    });
+
+    const dots = dotscontainer.querySelectorAll('.dot');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                const activeindex = Array.from(cards).indexOf(entry.target);
+                dots.forEach((dot, idx) => {
+                    dot.classList.toggle('active', idx === activeindex);
+                });
+            }
+        });
+    }, {
+        root: carousel,
+        threshold: 0.6
+    });
+    cards.forEach(card => observer.observe(card))
+}) ();
+
+
+// carousel observer
+
+(function () {
+    const catalog = document.querySelector('.catalog-container');
+    function getthershold() {
+        if (window.innerWidth > 760) return 0.1;
+        const catalogheight = catalog.offsetHeight || 500;
+        const ratio = (window.innerHeight * 0.8) / catalogheight;
+        return Math.min(0.8, Math.max(0.2, Math.floor(ratio * 10) / 10));
+    }
+
+    const catalogobserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (window.innerWidth <= 760) {
+                entry.target.classList.toggle('visible', entry.isIntersecting);
+            } else {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, {threshold: getthershold()});
+
+    catalogobserver.observe(catalog);
+}) ();
