@@ -321,7 +321,9 @@ body.menu-open .navbar-left {
         opacity: 1;
         transition: width 0.05s ease-out, opacity 0.35s ease;
     }
-
+    .container-title{
+        margin-top: 5rem;
+    }
 }
 
 
@@ -331,8 +333,7 @@ body.menu-open .navbar-left {
     position: relative;
     max-width: 82.85rem;
     width: 80%;
-    background-color: rgb(59, 59, 59);
-    border-radius: 16px;
+    margin: 0 auto;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -356,7 +357,36 @@ body.menu-open .navbar-left {
 }
 
 .description{
+    margin-bottom: 2rem;
+    margin-top: -0.01rem;
     color: rgb(73, 73, 73);
     text-align: center;
     font-size: clamp(1.35rem, 1.8vw, 2.45rem);;
+}
+
+.container-imgs{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    
+    width: fit-content;
+    max-width: 100%;
+    box-sizing: border-box;
+    
+    gap: clamp(0.75rem, 1.5vw, 1.75rem);
+    padding: clamp(0.85rem, 1.5vw, 1.5rem);
+    margin: 0 auto 3rem auto;
+    
+    background-color: rgb(38, 38, 44);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+}
+
+.d-img{
+    width: clamp(8.5rem, 15vw, 16.5rem);
+    height: auto;
+    border-radius: 12px;
+    flex-shrink: 0;
+    display: block;
 }
