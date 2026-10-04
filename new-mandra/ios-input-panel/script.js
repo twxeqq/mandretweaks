@@ -123,4 +123,10 @@ document.addEventListener('DOMContentLoaded', function(){
     carousel.addEventListener('scroll', () => {
         cards.forEach(c => c.classList.remove('active-desc'));
     }, { passive: true });
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 760) {
+            cards.forEach(c => c.classList.remove('active-desc'));
+        }
+    });
 })();
