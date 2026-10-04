@@ -340,10 +340,14 @@ body.menu-open .navbar-left {
 }
 
 .carousel-item {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
 }
 
 .d-img{
@@ -354,6 +358,70 @@ body.menu-open .navbar-left {
     display: block;
     opacity: 1;
     transform: none;
+    transition: filter 0.4s ease;
+}
+
+.carousel-item:hover .d-img {
+    filter: brightness(0.32);
+}
+
+.card-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(8px, 1.2vw, 14px);
+    padding: clamp(0.75rem, 1.5vw, 1.25rem);
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.45);
+    border-radius: 12px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+    z-index: 2;
+}
+
+.carousel-item:hover .card-overlay {
+    opacity: 1;
+}
+
+.img-desc {
+    width: 90%;
+    max-width: 14.5rem;
+    height: auto;
+    object-fit: contain;
+    border-radius: 32px;
+    border: 5px solid rgba(255, 255, 255, 0.15);
+    display: block;
+
+    transform: translateY(30px);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.4s ease;
+}
+
+.desc-text {
+    color: rgb(240, 240, 240);
+    font-size: clamp(0.85rem, 1.1vw, 1.1rem);
+    font-weight: 600;
+    text-align: center;
+    margin: 0;
+    padding: 0 6px;
+    line-height: 1.35;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.85);
+
+    transform: translateY(30px);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.05s,
+                opacity 0.4s ease 0.05s;
+}
+
+.carousel-item:hover .img-desc,
+.carousel-item:hover .desc-text {
+    transform: translateY(0);
+    opacity: 1;
 }
 
 /* carousel dots */
@@ -508,5 +576,11 @@ body.menu-open .navbar-left {
         gap: 8px;
         margin-top: 1.5rem;
         margin-bottom: 2.5rem;
+    }
+    .card-overlay {
+        display: none !important;
+    }
+    .carousel-item:hover .d-img {
+        filter: none !important;
     }
 }
