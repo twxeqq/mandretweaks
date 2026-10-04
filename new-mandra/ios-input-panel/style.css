@@ -361,7 +361,8 @@ body.menu-open .navbar-left {
     transition: filter 0.4s ease;
 }
 
-.carousel-item:hover .d-img {
+.carousel-item:hover .d-img,
+.carousel-item.active-desc .d-img {
     filter: brightness(0.32);
 }
 
@@ -383,7 +384,8 @@ body.menu-open .navbar-left {
     z-index: 2;
 }
 
-.carousel-item:hover .card-overlay {
+.carousel-item:hover .card-overlay,
+.carousel-item.active-desc .card-overlay {
     opacity: 1;
 }
 
@@ -419,7 +421,9 @@ body.menu-open .navbar-left {
 }
 
 .carousel-item:hover .img-desc,
-.carousel-item:hover .desc-text {
+.carousel-item:hover .desc-text,
+.carousel-item.active-desc .img-desc,
+.carousel-item.active-desc .desc-text {
     transform: translateY(0);
     opacity: 1;
 }
@@ -562,7 +566,8 @@ body.menu-open .navbar-left {
         opacity: 0;
         transform: translateY(30px);
         transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
-                    transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+                    transform 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+                    filter 0.35s ease;
         will-change: opacity, transform;
     }
     .carousel-item.visible .d-img {
@@ -577,10 +582,32 @@ body.menu-open .navbar-left {
         margin-top: 1.5rem;
         margin-bottom: 2.5rem;
     }
-    .card-overlay {
-        display: none !important;
+    .carousel-item {
+        border-radius: 16px;
+        overflow: hidden;
     }
-    .carousel-item:hover .d-img {
-        filter: none !important;
+    .card-overlay {
+        border-radius: 16px;
+        background: rgba(0, 0, 0, 0.52);
+        padding: 1.2rem 0.85rem;
+    }
+    .img-desc {
+        border-width: 4px;
+        border-radius: 24px;
+        max-width: 13.5rem;
+    }
+    .desc-text {
+        font-size: clamp(0.85rem, 3.6vw, 1.05rem);
+    }
+    .carousel-item:not(.active-desc):hover .d-img {
+        filter: none;
+    }
+    .carousel-item:not(.active-desc):hover .card-overlay {
+        opacity: 0;
+    }
+    .carousel-item:not(.active-desc):hover .img-desc,
+    .carousel-item:not(.active-desc):hover .desc-text {
+        transform: translateY(30px);
+        opacity: 0;
     }
 }

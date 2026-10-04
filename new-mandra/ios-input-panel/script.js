@@ -78,8 +78,49 @@ document.addEventListener('DOMContentLoaded', function(){
         threshold: 0.15
     });
 
+    // Toggle card description on tap (mobile) & click
+    let touchMoved = false;
+    let touchStartX = 0;
+    let touchStartY = 0;
+
     cards.forEach(card => {
         dotsObserver.observe(card);
         animObserver.observe(card);
+
+        card.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+            touchMoved = false;
+        }, { passive: true });
+
+        card.addEventListener('touchmove', (e) => {
+            if (Math.abs(e.touches[0].clientX - touchStartX) > 10 || Math.abs(e.touches[0].clientY - touchStartY) > 10) {
+                touchMoved = true;
+            }
+        }, { passive: true });
+
+        card.addEventListener('click', () => {
+            if (touchMoved) {
+                touchMoved = false;
+                return;
+            }
+            const isAlreadyActive = card.classList.contains('active-desc');
+            cards.forEach(c => c.classList.remove('active-desc'));
+            if (!isAlreadyActive) {
+                card.classList.add('active-desc');
+            }
+        });
     });
+
+    // Close description on click outside carousel
+    document.addEventListener('click', (e) => {
+        if (!carousel.contains(e.target)) {
+            cards.forEach(c => c.classList.remove('active-desc'));
+        }
+    });
+
+    // Close description on carousel swipe/scroll
+    carousel.addEventListener('scroll', () => {
+        cards.forEach(c => c.classList.remove('active-desc'));
+    }, { passive: true });
 })();
