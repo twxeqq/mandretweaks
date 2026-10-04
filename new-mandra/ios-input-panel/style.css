@@ -162,7 +162,7 @@ body {
     display: none !important;
 }
 
-/* Контейнер бургера */
+/* burger */
 .burger {
     position: relative;
     width: 40px;
@@ -174,7 +174,6 @@ body {
     cursor: pointer;
 }
 
-/* Общие стили для обеих иконок: центрируем их строго в одной точке */
 .openbtn,
 .closebtn {
     position: absolute;
@@ -353,6 +352,8 @@ body.menu-open .navbar-left {
     border-radius: 12px;
     flex-shrink: 0;
     display: block;
+    opacity: 1;
+    transform: none;
 }
 
 /* carousel dots */
@@ -461,12 +462,11 @@ body.menu-open .navbar-left {
         overscroll-behavior-x: contain;
         scrollbar-width: none;
 
-        /* Затухание отключено */
         -webkit-mask-image: none;
         mask-image: none;
 
-        padding-top: 10px;
-        padding-bottom: 15px;
+        padding-top: 15px;
+        padding-bottom: 25px;
         padding-left: 16px;
         padding-right: 16px;
         scroll-padding-left: 16px;
@@ -489,8 +489,17 @@ body.menu-open .navbar-left {
         border-radius: 16px;
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
         border: 1px solid rgba(255, 255, 255, 0.08);
-        transition: transform 0.3s ease;
         display: block;
+
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
+                    transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        will-change: opacity, transform;
+    }
+    .carousel-item.visible .d-img {
+        opacity: 1;
+        transform: translateY(0);
     }
     .carousel-dots {
         display: flex;

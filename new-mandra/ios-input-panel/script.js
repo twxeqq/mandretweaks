@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 
 
-// carousel-dots
+// carousel-dots & appearance animations
 
 (function initPanelCarousel() {
     const carousel = document.getElementById('panelCarousel');
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     const dots = dotsContainer.querySelectorAll('.dot');
 
-    const observer = new IntersectionObserver((entries) => {
+    const dotsObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
                 const activeIndex = Array.from(cards).indexOf(entry.target);
@@ -65,5 +65,21 @@ document.addEventListener('DOMContentLoaded', function(){
         threshold: 0.5
     });
 
-    cards.forEach(card => observer.observe(card));
+    const animObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (window.innerWidth <= 760) {
+                entry.target.classList.toggle('visible', entry.isIntersecting);
+            } else {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, {
+        root: window.innerWidth <= 760 ? carousel : null,
+        threshold: 0.15
+    });
+
+    cards.forEach(card => {
+        dotsObserver.observe(card);
+        animObserver.observe(card);
+    });
 })();
