@@ -22,22 +22,48 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 
 
-// scroll progress
+// carousel-dots
 
-(function () {
-    const progressbar = document.getElementById('progressbar');
-    if (!progressbar) return;
+(function initPanelCarousel() {
+    const carousel = document.getElementById('panelCarousel');
+    const dotsContainer = document.getElementById('carouselDots');
+    if (!carousel || !dotsContainer) return;
 
-    function updateprog() {
-        const scrolltop = window.scrollY || document.documentElement.scrollTop;
-        const totalheight = document.documentElement.scrollHeight - window.innerHeight;
+    const cards = carousel.querySelectorAll('.carousel-item');
+    if (!cards.length) return;
 
-        if (totalheight > 0) {
-            progressbar.style.width = `${(scrolltop / totalheight) * 100}%`
-        }
-    }
+    dotsContainer.innerHTML = '';
+    cards.forEach((card, index) => {
+        const dot = document.createElement('button');
+        dot.classList.add('dot');
+        dot.setAttribute('aria-label', `Слайд ${index + 1}`);
+        if (index === 0) dot.classList.add('active');
 
-    window.addEventListener('scroll', updateprog, {passive: true});
-    window.addEventListener('resize', updateprog);
-    window.addEventListener('load', updateprog);
+        dot.addEventListener('click', () => {
+            card.scrollIntoView({
+                behavior: 'smooth',
+                inline: 'start',
+                block: 'nearest'
+            });
+        });
+        dotsContainer.appendChild(dot);
+    });
+
+    const dots = dotsContainer.querySelectorAll('.dot');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                const activeIndex = Array.from(cards).indexOf(entry.target);
+                dots.forEach((dot, idx) => {
+                    dot.classList.toggle('active', idx === activeIndex);
+                });
+            }
+        });
+    }, {
+        root: carousel,
+        threshold: 0.5
+    });
+
+    cards.forEach(card => observer.observe(card));
 })();

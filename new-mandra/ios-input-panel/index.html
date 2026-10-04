@@ -2,13 +2,12 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="style.css?v=1.0.4">
+        <link rel="stylesheet" href="style.css?v=1.1.0">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://db.onlinewebfonts.com/c/d7e8a95865396cddca89b00080d2cba6?family=SoDo+Sans+SemiBold" rel="stylesheet">
         <title>IOS Input Panel</title>
     </head>
     <body>
-        <div class="scrollprogress" id="progressbar"></div>
         <div class="navbar">
             <div class="navbar-left">
                 <img src="assets/logo.png" alt="logo" class="logo">
@@ -39,6 +38,7 @@
         </div>
         <div class="menu mobile">
             <div class="links-m">
+                <a href="../index.html" class="moblink">Главная страница</a>
                 <a href="https://t.me/swagnonher" target="_blank" class="moblink">Официальный канал</a> 
                 <a href="https://t.me/sterepando" class="moblink" target="_blank">Разработчик</a>
                 <a href="https://t.me/swagnonher/388" class="moblink" target="_blank">Поддержать</a>
@@ -49,14 +49,25 @@
                 <h1 class="title-h"><span>Идеальная</span> реализация панели ввода</h1>
                 <p class="description">Делает дизайн панели<br>в стиле IOS</p>
             </div>
-            <div class="container-imgs">
-                <img src="assets/main-panel.jpg" class="main-panel d-img" alt="обынчая панель">
-                <img src="assets/typing-panel.jpg" class="typing-panel d-img" alt="писать">
-                <img src="assets/keyboard-panel.jpg" class="keyboard-panel d-img" alt="при открытии клавы/стиков">
-                <img src="assets/voice-panel.jpg" class="voice-panel d-img" alt="гски">
+            <div class="carousel-wrapper">
+                <div class="container-imgs" id="panelCarousel">
+                    <div class="carousel-item">
+                        <img src="assets/main-panel.jpg" class="main-panel d-img" alt="обычная панель">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="assets/typing-panel.jpg" class="typing-panel d-img" alt="писать">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="assets/keyboard-panel.jpg" class="keyboard-panel d-img" alt="при открытии клавы/стиков">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="assets/voice-panel.jpg" class="voice-panel d-img" alt="гски">
+                    </div>
+                </div>
             </div>
+            <div class="carousel-dots" id="carouselDots"></div>
         </main>
         
-        <script src="script.js?v1.0.4"></script>
+        <script src="script.js?v=1.1.0"></script>
     </body>
 </html>
