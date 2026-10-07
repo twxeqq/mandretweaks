@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css?v=1.0.0">
+        <link rel="stylesheet" href="style.css?v=1.0.2">
         <link href="https://db.onlinewebfonts.com/c/d7e8a95865396cddca89b00080d2cba6?family=SoDo+Sans+SemiBold" rel="stylesheet">
         <title>MD-3 аватарки</title>
     </head>
@@ -49,12 +49,14 @@
                 <h1 class="title-h">Новее, свежее,<br><span>лучше</span></h1>
                 <p class="description">Добавляет Material Design 3<br>для всех аватарок</p>
             </div>
-            <div class="container-imgs">
-                <img src="assets/md3-profile.jpg" class="profile-img" alt="profile">
-                <img src="assets/md3-group.jpg" class="group-img" alt="group">
-                <img src="assets/md3-channel.jpg" class="channel-img" alt="channel">
+            <div class="carousel-wrapper">
+                <div class="container-imgs" id="avatarCarousel">
+                    <img src="assets/md3-group.jpg" class="group-img img" alt="group" data-order="0">
+                    <img src="assets/md3-profile.jpg" class="profile-img img" alt="profile" data-order="1">
+                    <img src="assets/md3-channel.jpg" class="channel-img img" alt="channel" data-order="2">
+                </div>
             </div>
         </main>
-        <script src="script.js?v=1.0.0"></script>
+        <script src="script.js?v=1.0.3"></script>
     </body>
 </html>
