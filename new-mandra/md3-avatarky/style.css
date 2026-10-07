@@ -36,6 +36,7 @@ body {
     width: clamp(3.25rem, 4.5vw, 5.85rem);
     height: auto;
     padding: 0.5rem 0.8rem;
+    cursor: pointer;
     transition: transform 0.35s cubic-bezier(0.2, 0, 0, 1);
 }
 
