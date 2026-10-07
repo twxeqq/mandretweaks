@@ -79,18 +79,6 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1),
-                border-color 0.25s ease,
-                box-shadow 0.25s ease;
-}
-
-.links a:hover {
-    border-color: rgba(208, 66, 227, 0.55);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
-}
-
-.links a:active {
-    transform: scale(0.96);
 }
 
 .channel-link {
