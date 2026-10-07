@@ -20,16 +20,19 @@ document.addEventListener('DOMContentLoaded', function(){
     }
 
     //imgs
-    
     const imgs = document.querySelectorAll('.img');
     imgs.forEach(img => {
         img.addEventListener('animationend', () => {
+            img.style.animation = 'none';
             img.classList.add('ready');
         });
     });
 
     setTimeout(() => {
-        imgs.forEach(img => img.classList.add('ready'));
+        imgs.forEach(img => {
+            img.style.animation = 'none';
+            img.classList.add('ready');
+        });
     }, 1500);
 
     const track = document.getElementById('avatarCarousel');

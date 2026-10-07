@@ -409,7 +409,7 @@ body.menu-open .navbar-left {
     -webkit-backdrop-filter: blur(14px);
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45);
-    animation: containerIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+    animation: containerIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s backwards;
 }
 
 @keyframes containerIn {
@@ -424,6 +424,7 @@ body.menu-open .navbar-left {
 }
 
 .img{
+    position: relative;
     width: clamp(15rem, 20vw, 27.85rem);
     height: auto;
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -431,6 +432,7 @@ body.menu-open .navbar-left {
     cursor: pointer;
     display: block;
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+    will-change: transform, box-shadow;
     transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1),
                 box-shadow 0.4s cubic-bezier(0.2, 0, 0, 1),
                 border-color 0.35s ease,
@@ -439,7 +441,7 @@ body.menu-open .navbar-left {
 }
 
 .group-img{
-    animation: groupIn 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+    animation: groupIn 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.35s backwards;
 }
 
 @keyframes groupIn {
@@ -454,7 +456,7 @@ body.menu-open .navbar-left {
 }
 
 .profile-img{
-    animation: profileIn 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
+    animation: profileIn 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.45s backwards;
 }
 
 @keyframes profileIn {
@@ -469,7 +471,7 @@ body.menu-open .navbar-left {
 }
 
 .channel-img{
-    animation: channelIn 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both;
+    animation: channelIn 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.55s backwards;
 }
 
 @keyframes channelIn {
@@ -488,26 +490,26 @@ body.menu-open .navbar-left {
     opacity: 1;
 }
 
-@media (hover: hover) and (pointer: fine) {
+/* Desktop hover and focus animations (screens > 760px) */
+@media (min-width: 761px) {
     .container-imgs:hover .img:not(:hover) {
-        opacity: 0.78;
+        opacity: 0.75;
         filter: brightness(0.85);
     }
 
-    .img:hover,
-    .img.ready:hover {
-        transform: translateY(-10px) scale(1.025);
-        border-color: rgba(208, 66, 227, 0.75);
+    .img:hover {
+        transform: translateY(-10px) scale(1.025) !important;
+        border-color: rgba(208, 66, 227, 0.75) !important;
         box-shadow: 0 24px 45px rgba(0, 0, 0, 0.6), 
-                    0 0 30px rgba(208, 66, 227, 0.32);
-        opacity: 1;
-        filter: brightness(1.04);
-        z-index: 5;
+                    0 0 30px rgba(208, 66, 227, 0.35) !important;
+        opacity: 1 !important;
+        filter: brightness(1.04) !important;
+        z-index: 10;
+        pointer-events: auto !important;
     }
 
-    .img:active,
-    .img.ready:active {
-        transform: translateY(-4px) scale(1.01);
+    .img:active {
+        transform: translateY(-4px) scale(1.01) !important;
         transition-duration: 0.15s;
     }
 }
@@ -627,12 +629,21 @@ body.menu-open .navbar-left {
         opacity: 1 !important;
         transform: none !important;
         border-radius: 20px !important;
-        border: 1px solid rgba(255, 255, 255, 0.12) !important;
-        box-shadow: 0 14px 32px rgba(0, 0, 0, 0.5) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        box-shadow: none !important;
+        filter: none !important;
         touch-action: pan-y !important;
         pointer-events: none !important;
         user-select: none !important;
         -webkit-user-drag: none !important;
+    }
+
+    .img:hover,
+    .img:focus,
+    .img:active {
+        box-shadow: none !important;
+        filter: none !important;
+        transform: none !important;
     }
 
     .group-img,
