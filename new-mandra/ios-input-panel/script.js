@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function(){
     function BF() {
         const cssVal = getComputedStyle(document.documentElement).getPropertyValue('--accent-2').trim();
         const hexMatch = /^#([0-9a-f]{6})$/i.exec(cssVal);
-        if (!hexMatch) return [127, 203, 245];
+        if (!hexMatch) return [208, 66, 227];
         const num = parseInt(hexMatch[1], 16);
         return [(num >> 16) & 255, (num >> 8) & 255, num & 255];
     }
@@ -233,8 +233,8 @@ document.addEventListener('DOMContentLoaded', function(){
         n.fillRect(0, 0, s, c);
 
         const grad = n.createRadialGradient(s * 0.85, c * 0.05, 0, s * 0.85, c * 0.05, s * 0.4);
-        grad.addColorStop(0, 'rgba(125,117,223,.08)');
-        grad.addColorStop(1, 'rgba(125,117,223,0)');
+        grad.addColorStop(0, 'rgba(208,66,227,.08)');
+        grad.addColorStop(1, 'rgba(208,66,227,0)');
         n.fillStyle = grad;
         n.fillRect(0, 0, s, c);
 
