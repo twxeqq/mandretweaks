@@ -1,7 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-
-@import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Huninn&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 *,
 *::before,
@@ -188,65 +186,6 @@ body {
     display: none !important;
 }
 
-@media (max-width: 760px) {
-    .desktop{
-        display: none !important;
-    }
-    .mobile{
-        display: flex !important;
-    }
-    .title{
-        font-size: 1.2rem;
-    }
-    .navbar{
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        width: 100% !important;
-        box-sizing: border-box;
-        padding-top: env(safe-area-inset-top, 0px);
-        z-index: 10000;
-        background-color: rgba(5, 5, 7, 0.85);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-
-        transition: background-color 0.35s ease, 
-                    backdrop-filter 0.35s ease, 
-                    -webkit-backdrop-filter 0.35s ease;
-    }
-
-    .title-container {
-        flex-direction: column !important;
-        gap: 0.75rem !important;
-        margin-top: 5.5rem !important;
-        margin-bottom: 1.5rem !important;
-        padding: 0 1.25rem !important;
-        align-items: center !important;
-        text-align: center !important;
-    }
-
-    .title-h {
-        text-align: center !important;
-        margin: 0 !important;
-        font-size: clamp(1.4rem, 6vw, 1.85rem) !important;
-    }
-
-    .title-h span {
-        font-size: clamp(2rem, 8.5vw, 3rem) !important;
-    }
-
-    .desc {
-        text-align: center !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        font-size: clamp(0.95rem, 3.8vw, 1.15rem) !important;
-    }
-
-    .desc::before {
-        display: none !important;
-    }
-}
-
 /* Контейнер бургера */
 .burger {
     position: relative;
@@ -378,7 +317,7 @@ body.menu-open .navbar-left {
     justify-content: center;
     margin: clamp(4rem, 6vw, 6.5rem) auto 2rem auto;
     flex-direction: row;
-    gap: clamp(2rem, 2.5vw, 3.25rem);
+    gap: clamp(1.5rem, 2vw, 2.25rem);
 }
 
 .title-h{
@@ -387,27 +326,28 @@ body.menu-open .navbar-left {
     font-size: clamp(1.3rem, 2.2vw, 2.5rem);
     line-height: 1.25;
     text-align: right;
-    animation: titleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation: titleFadeUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-@keyframes titleIn {
+@keyframes titleFadeUp {
     0% {
-        transform: translateX(-35px) scale(0.96);
         opacity: 0;
+        transform: translateY(16px);
+        filter: blur(5px);
     }
     100% {
-        transform: translateX(0) scale(1);
         opacity: 1;
+        transform: translateY(0);
+        filter: none;
     }
 }
 
 .title-h span{
     color: rgb(208, 66, 227);
     font-size: clamp(2.2rem, 5vw, 5rem);
-    font-family: 'Alegreya', 'Google Sans', 'Open sans', 'Roboto';
+    font-family: 'Huninn', 'Open sans', 'Roboto';
     font-weight: 500;
-    font-style: italic;
-    text-shadow: 0 0 25px rgba(208, 66, 227, 0.35);
+    text-shadow: 0 0 20px rgba(208, 66, 227, 0.22);
 }
 
 .desc{
@@ -417,18 +357,20 @@ body.menu-open .navbar-left {
     text-align: left;
     margin: 0;
     position: relative;
-    padding: 0.75rem 0 0.75rem clamp(1.5rem, 2vw, 2.25rem);
-    animation: descIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
+    padding: 0.5rem 0 0.5rem clamp(1.5rem, 2vw, 2.25rem);
+    animation: descFadeUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
 }
 
-@keyframes descIn {
+@keyframes descFadeUp {
     0% {
-        transform: translateX(35px) scale(0.96);
         opacity: 0;
+        transform: translateY(16px);
+        filter: blur(5px);
     }
     100% {
-        transform: translateX(0) scale(1);
         opacity: 1;
+        transform: translateY(0);
+        filter: none;
     }
 }
 
@@ -436,24 +378,167 @@ body.menu-open .navbar-left {
     content: '';
     position: absolute;
     left: 0;
-    top: 5%;
-    height: 90%;
+    top: 10%;
+    height: 80%;
     width: 2px;
-    border-radius: 2px;
-    background: linear-gradient(180deg, rgba(208, 66, 227, 0.1), rgba(208, 66, 227, 0.85) 50%, rgba(255, 255, 255, 0.15) 100%);
-    box-shadow: 0 0 10px rgba(208, 66, 227, 0.35);
-    transform: scaleY(0);
+    background: linear-gradient(
+        180deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.12) 20%,
+        rgba(225, 225, 225, 0.5) 50%,
+        rgba(255, 255, 255, 0.12) 80%,
+        transparent 100%
+    );
+    opacity: 0;
+    transform: scaleY(0.4);
     transform-origin: center;
-    animation: dividerGrow 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards;
+    animation: dividerFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.22s forwards;
 }
 
-@keyframes dividerGrow {
+@keyframes dividerFadeIn {
     0% {
-        transform: scaleY(0);
         opacity: 0;
+        transform: scaleY(0.4);
     }
     100% {
-        transform: scaleY(1);
         opacity: 1;
+        transform: scaleY(1);
+    }
+}
+
+
+.main-container{
+    width: fit-content;
+    max-width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap:  clamp(1.2rem, 2vw, 2.5rem);
+    background-color: rgba(34, 34, 39, 0.6);
+    padding: clamp(1rem, 1.8vw, 1.8rem);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.img-card{
+    position: relative;
+    overflow: hidden;
+    border-radius: 14px;
+    cursor: pointer;
+    flex-shrink: 0;
+    width: clamp(16rem, 21vw, 22rem);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.img-base{
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 14px;
+}
+
+.img-hover{
+    position: absolute;
+    inset: 0%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 14px;
+    z-index: 2;
+
+    opacity: 0;
+    clip-path: circle(100px at var(--x, 50%) var(--y, 50%));
+    transition: opacity 0.25 ease;
+    will-change: clip-path;
+}
+
+.img-card:hover .img-hover{
+    opacity: 1;
+}
+
+.img-card::after{
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    pointer-events: none;
+    z-index: 3;
+
+    opacity: 0;
+    transition: opacity 0.25s ease;
+
+    background: radial-gradient(
+        circle 100px at var(--x, 50%) var(--y, 50%),
+        transparent calc(100px - 2px),
+        rgba(208, 66, 227, 0.9) calc(100px - 0.5px),
+        rgba(208, 66, 227, 0.9) 100px,
+        transparent calc(100px + 1px)
+    );
+}
+
+.img-card:hover::after{
+    opacity: 1;
+}
+/* mobile */
+
+@media (max-width: 760px) {
+    .desktop{
+        display: none !important;
+    }
+    .mobile{
+        display: flex !important;
+    }
+    .title{
+        font-size: 1.2rem;
+    }
+    .navbar{
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        z-index: 10000;
+        background-color: rgba(5, 5, 7, 0.85);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+
+        transition: background-color 0.35s ease, 
+                    backdrop-filter 0.35s ease, 
+                    -webkit-backdrop-filter 0.35s ease;
+    }
+
+    .title-container {
+        flex-direction: column !important;
+        gap: 0.75rem !important;
+        margin-top: 5.5rem !important;
+        margin-bottom: 1.5rem !important;
+        padding: 0 1.25rem !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+
+    .title-h {
+        text-align: center !important;
+        margin: 0 !important;
+        font-size: clamp(1.4rem, 6vw, 1.85rem) !important;
+    }
+
+    .title-h span {
+        font-size: clamp(2rem, 8.5vw, 3rem) !important;
+    }
+
+    .desc {
+        text-align: center !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        font-size: clamp(0.95rem, 3.8vw, 1.15rem) !important;
+    }
+
+    .desc::before {
+        display: none !important;
     }
 }
