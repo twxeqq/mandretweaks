@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
             card.style.setProperty('--x', `${x.toFixed(1)}%`);
             card.style.setProperty('--y', `${y.toFixed(1)}%`);
+            card.style.setProperty('--r', `${radius.toFixed(1)}px`);
         });
     });
 
