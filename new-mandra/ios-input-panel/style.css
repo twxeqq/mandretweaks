@@ -527,13 +527,9 @@ body.menu-open .navbar-left {
         box-sizing: border-box;
         padding-top: env(safe-area-inset-top, 0px);
         z-index: 10000;
-        background-color: rgba(5, 5, 7, 0.85);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
+        background-color: rgba(5, 5, 7, 0.6);
 
-        transition: background-color 0.35s ease, 
-                    backdrop-filter 0.35s ease, 
-                    -webkit-backdrop-filter 0.35s ease;
+        transition: background-color 0.35s ease;
     }
     .container {
         width: 100%;
