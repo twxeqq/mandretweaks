@@ -406,6 +406,43 @@ body.menu-open .navbar-left {
     }
 }
 
+.custom-cursor{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 999999;
+
+    border: 1px solid rgba(227, 227, 231, 0.55);
+    background-color: transparent;
+
+    transform: translate(-50%, -50%);
+
+    transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+        height 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.25s ease,
+        background-color 0.25s ease,
+        opacity 0.2s ease;
+    opacity: 0;
+}
+
+.custom-cursor.interactive{
+    border-color: rgba(208, 66, 227, 0.95);
+    background: rgba(208, 66, 227, 0.08);
+    transform: translate(-50%, -50%) scale(1.15);
+}
+
+.custom-cursor.is-card{
+    width: var(--cursor-size, 90px);
+    height: var(--cursor-size, 90px);
+    border-color: rgba(208, 66, 227, 0.95);
+    background-color: transparent;
+    transform: translate(-50%, -50%);
+}
+
 .main-container{
     width: fit-content;
     max-width: 100%;
@@ -447,10 +484,9 @@ body.menu-open .navbar-left {
     object-fit: cover;
     border-radius: 14px;
     z-index: 2;
-
     opacity: 0;
-    clip-path: circle(var(--r, 80px) at var(--x, 50%) var(--y, 50%));
-    transition: opacity 0.25 ease;
+    clip-path: circle(var(--r, 45px) at var(--x, 50%) var(--y, 50%));
+    transition: opacity 0.25s ease;
     will-change: clip-path;
 }
 
@@ -458,29 +494,6 @@ body.menu-open .navbar-left {
     opacity: 1;
 }
 
-.img-card::after{
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 14px;
-    pointer-events: none;
-    z-index: 3;
-
-    opacity: 0;
-    transition: opacity 0.25s ease;
-
-    background: radial-gradient(
-        circle var(--r, 80px) at var(--x, 50%) var(--y, 50%),
-        transparent calc(var(--r, 80px) - 2px),
-        rgba(208, 66, 227, 0.9) calc(var(--r, 80px) - 0.5px),
-        rgba(208, 66, 227, 0.9) var(--r, 80px),
-        transparent calc(var(--r, 80px) + 1px)
-    );
-}
-
-.img-card:hover::after{
-    opacity: 1;
-}
 /* mobile */
 
 @media (max-width: 760px) {
@@ -489,6 +502,9 @@ body.menu-open .navbar-left {
     }
     .mobile{
         display: flex !important;
+    }
+    .custom-cursor{
+        display: none !important;
     }
     .title{
         font-size: 1.2rem;
@@ -524,6 +540,7 @@ body.menu-open .navbar-left {
         text-align: center !important;
         margin: 0 !important;
         font-size: clamp(1.4rem, 6vw, 1.85rem) !important;
+        color: rgb(225, 225, 225);
     }
 
     .title-h span {
