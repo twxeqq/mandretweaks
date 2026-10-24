@@ -473,12 +473,12 @@ body.menu-open .navbar-left {
 @keyframes cardin {
     0% {
         opacity: 0;
-        transform: translate(32px) scale(0.96);
+        transform: translateY(32px) scale(0.96);
         filter: blur(6px);
     }
     100% {
         opacity: 1;
-        transform: translate(0) scale(1);
+        transform: translateY(0) scale(1);
         filter: none;
     }
 }
