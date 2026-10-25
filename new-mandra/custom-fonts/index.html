@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css?v=1.0.12">
+        <link rel="stylesheet" href="style.css?v=20">
             <link href="https://db.onlinewebfonts.com/c/d7e8a95865396cddca89b00080d2cba6?family=SoDo+Sans+SemiBold" rel="stylesheet">
         <title>Custom fonts</title>
     </head>
@@ -77,6 +77,34 @@
                 </div>
             </div>
         </main>
-        <script src="script.js?v=1.0.13"></script>
+        <div class="font-modal" id="font-modal" aria-hidden="true">
+            <div class="modal-backdrop"></div>
+
+            <button class="modal-close" aria-label="Закрыть">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+
+            <div class="modal-wrapper">
+                <div class="modal-stack">
+                    <!-- без шрифта -->
+                     <div class="modal-card card-base">
+                        <span class="modal-badge">Без шрифта</span>
+                        <img src="" class="modal-img img-target-base" alt="Оригинал">
+                     </div>
+
+                    <!-- со шрифтом -->
+
+                    <div class="modal-card card-custom">
+                        <span class="modal-badge badge-accent">Со шрифтом</span>
+                        <img src="" class="modal-img img-target-custom" alt="Со шрифтом">
+                    </div>
+                </div>
+            </div>
+            <p class="modal-hint">Нажмите на картинку, чтобы рассмотреть детальнее</p>
+        </div>
+        <script src="script.js?v=20"></script>
     </body>
 </html>

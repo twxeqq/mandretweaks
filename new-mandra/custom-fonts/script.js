@@ -132,3 +132,231 @@ document.addEventListener('DOMContentLoaded', function(){
     }, {threshold: 0.2});
     mobilecards.forEach(card => observer.observe(card));
 })();
+
+// режим рассмотра
+(function fontmodal() {
+    const modal = document.getElementById('font-modal');
+    if (!modal) return;
+
+    const closeBtn = modal.querySelector('.modal-close');
+    const imgBase = modal.querySelector('.img-target-base');
+    const imgCustom = modal.querySelector('.img-target-custom');
+    const modalCards = modal.querySelectorAll('.modal-card');
+    const triggerCards = document.querySelectorAll('.img-card-m');
+
+    let currentScale = 1;
+    let startDist = 0;
+    let startScale = 1;
+    let posX = 0, posY = 0;
+    let startX = 0, startY = 0;
+    let isPinching = false;
+    let isPanning = false;
+    let touchMoved = false;
+    let lastTap = 0;
+    let activeZoomedCard = null;
+
+    function applyTransform(animated = false) {
+        if (!activeZoomedCard) return;
+        if (animated) {
+            activeZoomedCard.style.transition = 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
+        } else {
+            activeZoomedCard.style.transition = 'none';
+        }
+        // принудительно устанавливаем стиль, перебивая любые внешние правила
+        activeZoomedCard.style.setProperty(
+            'transform',
+            `translate(${posX.toFixed(1)}px, ${posY.toFixed(1)}px) scale(${currentScale.toFixed(3)})`,
+            'important'
+        );
+    }
+
+    function openZoom(card) {
+        modalCards.forEach(c => c.classList.remove('is-zoomed'));
+        card.classList.add('is-zoomed');
+        modal.classList.add('zoomed-mode');
+        activeZoomedCard = card;
+        currentScale = 1;
+        posX = 0;
+        posY = 0;
+        applyTransform(true);
+    }
+
+    function resetZoom() {
+        modal.classList.remove('zoomed-mode');
+        if (activeZoomedCard) {
+            activeZoomedCard.classList.remove('touching', 'is-zoomed');
+            activeZoomedCard.style.removeProperty('transform');
+            activeZoomedCard.style.transition = '';
+            activeZoomedCard = null;
+        }
+        modalCards.forEach(c => {
+            c.classList.remove('is-zoomed', 'touching');
+            c.style.removeProperty('transform');
+            c.style.transition = '';
+        });
+        currentScale = 1;
+        posX = 0;
+        posY = 0;
+        isPinching = false;
+        isPanning = false;
+        touchMoved = false;
+    }
+
+    function closeModal() {
+        modal.classList.remove('active');
+        resetZoom();
+        document.body.classList.remove('modal-open');
+    }
+
+    // открытие модалки из каталога
+    triggerCards.forEach((card, index) => {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', () => {
+            const fontNumber = index + 1;
+            if (imgBase) imgBase.src = `assets/no-cf-${fontNumber}.jpg`;
+            if (imgCustom) imgCustom.src = `assets/with-cf-${fontNumber}.jpg`;
+
+            resetZoom();
+            modal.classList.add('active');
+            document.body.classList.add('modal-open');
+        });
+    });
+
+    // одиночные клики: открытие карточки или шаг назад
+    modal.addEventListener('click', (e) => {
+        if (touchMoved) {
+            touchMoved = false;
+            return;
+        }
+
+        if (e.target.closest('.modal-close')) {
+            closeModal();
+            return;
+        }
+
+        const clickedCard = e.target.closest('.modal-card');
+
+        if (clickedCard) {
+            if (!modal.classList.contains('zoomed-mode')) {
+                openZoom(clickedCard);
+            }
+            return;
+        }
+
+        if (modal.classList.contains('zoomed-mode')) {
+            resetZoom(); 
+        } else {
+            closeModal(); 
+        }
+    });
+
+    // начало касания
+    modal.addEventListener('touchstart', (e) => {
+        if (!modal.classList.contains('zoomed-mode') || !activeZoomedCard) return;
+
+        // двойной тап для быстрого увеличения / возврата
+        if (e.target.closest('.modal-card') && e.touches.length === 1) {
+            const now = Date.now();
+            if (now - lastTap < 300) {
+                e.preventDefault();
+                touchMoved = true;
+                if (currentScale > 1.1) {
+                    currentScale = 1;
+                    posX = 0;
+                    posY = 0;
+                } else {
+                    currentScale = 2.4;
+                    posX = 0;
+                    posY = 0;
+                }
+                applyTransform(true);
+                lastTap = 0;
+                setTimeout(() => { touchMoved = false; }, 350);
+                return;
+            }
+            lastTap = now;
+        }
+
+        // запуск приближения двумя пальцами (Pinch)
+        if (e.touches.length === 2) {
+            e.preventDefault();
+            isPinching = true;
+            isPanning = false;
+            touchMoved = true;
+            activeZoomedCard.classList.add('touching');
+            startDist = Math.hypot(
+                e.touches[0].clientX - e.touches[1].clientX,
+                e.touches[0].clientY - e.touches[1].clientY
+            );
+            startScale = currentScale;
+        } 
+        // перемещение одним пальцем
+        else if (e.touches.length === 1) {
+            startX = e.touches[0].clientX - posX;
+            startY = e.touches[0].clientY - posY;
+            if (currentScale > 1.05) {
+                isPanning = true;
+                activeZoomedCard.classList.add('touching');
+            }
+        }
+    }, { passive: false });
+
+    // движение пальцев
+    modal.addEventListener('touchmove', (e) => {
+        if (!modal.classList.contains('zoomed-mode') || !activeZoomedCard) return;
+
+        // масштабирование двумя пальцами
+        if (isPinching && e.touches.length === 2) {
+            e.preventDefault();
+            touchMoved = true;
+            const dist = Math.hypot(
+                e.touches[0].clientX - e.touches[1].clientX,
+                e.touches[0].clientY - e.touches[1].clientY
+            );
+            if (startDist > 0) {
+                const factor = dist / startDist;
+                currentScale = Math.min(Math.max(1, startScale * factor), 4.5);
+                applyTransform(false);
+            }
+        } 
+        // перемещение увеличенной картинки
+        else if (isPanning && e.touches.length === 1 && currentScale > 1.05) {
+            e.preventDefault();
+            touchMoved = true;
+            posX = e.touches[0].clientX - startX;
+            posY = e.touches[0].clientY - startY;
+
+            const maxPanX = (currentScale - 1) * (activeZoomedCard.offsetWidth / 2);
+            const maxPanY = (currentScale - 1) * (activeZoomedCard.offsetHeight / 2);
+            posX = Math.max(-maxPanX, Math.min(maxPanX, posX));
+            posY = Math.max(-maxPanY, Math.min(maxPanY, posY));
+
+            applyTransform(false);
+        }
+    }, { passive: false });
+
+    // отпускание пальцев
+    modal.addEventListener('touchend', (e) => {
+        if (!modal.classList.contains('zoomed-mode') || !activeZoomedCard) return;
+
+        if (e.touches.length < 2) isPinching = false;
+        if (e.touches.length === 0) {
+            isPanning = false;
+            activeZoomedCard.classList.remove('touching');
+
+            // возврат к 1x при сжатии
+            if (currentScale < 1.05) {
+                currentScale = 1;
+                posX = 0;
+                posY = 0;
+                applyTransform(true);
+            }
+
+            setTimeout(() => {
+                touchMoved = false;
+            }, 300);
+        }
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+})();
