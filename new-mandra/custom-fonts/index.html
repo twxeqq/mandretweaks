@@ -3,11 +3,16 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css?v=20">
+        <link rel="stylesheet" href="style.css?v=30">
             <link href="https://db.onlinewebfonts.com/c/d7e8a95865396cddca89b00080d2cba6?family=SoDo+Sans+SemiBold" rel="stylesheet">
         <title>Custom fonts</title>
     </head>
     <body>
+        <div class="bg" aria-hidden="true">
+            <canvas id="bg-canvas"></canvas>
+            <div class="grain"></div>
+            <div class="vignette"></div>
+        </div>
 
         <div class="custom-cursor" aria-hidden="true"></div>
         <div class="navbar">
@@ -77,7 +82,7 @@
                 </div>
             </div>
         </main>
-        <div class="font-modal" id="font-modal" aria-hidden="true">
+        <div class="font-modal mobile" id="font-modal" aria-hidden="true">
             <div class="modal-backdrop"></div>
 
             <button class="modal-close" aria-label="Закрыть">
@@ -92,19 +97,43 @@
                     <!-- без шрифта -->
                      <div class="modal-card card-base">
                         <span class="modal-badge">Без шрифта</span>
-                        <img src="" class="modal-img img-target-base" alt="Оригинал">
+                        <img src="" class="modal-img img-target-base" alt="Оригинал" draggable="false">
                      </div>
 
                     <!-- со шрифтом -->
 
                     <div class="modal-card card-custom">
                         <span class="modal-badge badge-accent">Со шрифтом</span>
-                        <img src="" class="modal-img img-target-custom" alt="Со шрифтом">
+                        <img src="" class="modal-img img-target-custom" alt="Со шрифтом" draggable="false">
                     </div>
                 </div>
             </div>
-            <p class="modal-hint">Нажмите на картинку, чтобы рассмотреть детальнее</p>
+            <div class="bell-toggle" data-on="false" id="font-toggle">
+                <button type="button" class="bell-toggle__button" aria-pressed="false" aria-label="Переключатель шрифта">
+                    <span class="bell-toggle__bell" aria-hidden="true">
+                        <span class="bell-toggle__glyph">А</span>
+                    </span>
+                    <span class="bell-toggle__say" aria-hidden="true">
+                        <span class="bell-toggle__face bell-toggle__face--off">Без шрифта</span>
+                        <span class="bell-toggle__face bell-toggle__face--on">Со шрифтом</span>
+                    </span>
+                </button>
+            </div>
+            <button type="button" class="hold-btn" aria-label="Переключить режим">
+                <span class="hold-btn-fill">
+                    <svg class="hold-wave" viewBox="0 0 10 160" preserveAspectRatio="none">
+                        <path d="M0,0 Q8,10 0,20 Q8,30 0,40 Q8,50 0,60 Q8,70 0,80 Q8,90 0,100 Q8,110 0,120 Q8,130 0,140 Q8,150 0,160 L0,0 Z" />
+                    </svg>
+                </span>
+                <span class="hold-btn-content">
+                    <svg class="hold-btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span class="hold-btn-text">Режим сравнения</span>
+                </span>
+            </button>
         </div>
-        <script src="script.js?v=20"></script>
+        <script src="script.js?v=30"></script>
     </body>
 </html>
