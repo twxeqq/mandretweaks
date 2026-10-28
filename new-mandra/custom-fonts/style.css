@@ -668,16 +668,23 @@ body.menu-open .navbar-left {
         padding: 1rem;
         box-sizing: border-box;
         opacity: 0;
+        visibility: hidden;
         pointer-events: none;
-        transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s ease;
         touch-action: none;
         -webkit-touch-callout: none !important;
         -webkit-user-select: none !important;
         user-select: none !important;
     }
 
+    .font-modal:not(.active),
+    .font-modal:not(.active) * {
+        pointer-events: none !important;
+    }
+
     .font-modal.active {
         opacity: 1;
+        visibility: visible;
         pointer-events: auto;
     }
 
@@ -687,6 +694,13 @@ body.menu-open .navbar-left {
         background: rgba(5, 5, 7, 0.88);
         backdrop-filter: blur(14px);
         -webkit-backdrop-filter: blur(14px);
+        cursor: pointer;
+        pointer-events: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .font-modal.active .modal-backdrop {
+        pointer-events: auto;
     }
 
     .modal-close {
@@ -712,26 +726,219 @@ body.menu-open .navbar-left {
         transform: scale(1.08);
     }
 
-    .font-modal.zoomed-mode .modal-close {
+    /* Режим изучения: выбор из 2 карточек (study-mode) */
+    .font-modal.study-mode:not(.zoomed-card) .modal-wrapper {
+        padding-top: max(3.5rem, env(safe-area-inset-top, 3.5rem));
+        padding-bottom: calc(max(1.5rem, env(safe-area-inset-bottom, 1.5rem)) + 72px);
+    }
+    .font-modal.study-mode:not(.zoomed-card) .modal-stack {
+        width: min(62vw, calc((100dvh - 230px) * 0.39));
+        transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .font-modal.study-mode:not(.zoomed-card) .modal-card.card-base {
+        z-index: 1;
+        opacity: 1;
+        transform: translateY(-6%) scale(0.96);
+        pointer-events: auto;
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.85);
+    }
+    .font-modal.study-mode:not(.zoomed-card) .modal-card.card-custom {
+        z-index: 2;
+        opacity: 1;
+        transform: translateY(6%) scale(1);
+        pointer-events: auto;
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.85);
+    }
+    .font-modal.study-mode:not(.zoomed-card) .bell-toggle {
+        opacity: 0 !important;
+        pointer-events: none !important;
+        transform: translateX(-50%) translateY(12px) scale(0.95) !important;
+    }
+
+    /* Режим сравнения (compare-mode: слайдер до/после) */
+    .font-modal.compare-mode .modal-wrapper {
+        padding-top: max(3.5rem, env(safe-area-inset-top, 3.5rem));
+        padding-bottom: calc(max(1.5rem, env(safe-area-inset-bottom, 1.5rem)) + 76px);
+    }
+    .font-modal.compare-mode .modal-stack {
+        width: min(66vw, calc((100dvh - 215px) * 0.42));
+        border-radius: 20px;
+        overflow: hidden;
+        border: 2px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95);
+        touch-action: none;
+        cursor: ew-resize;
+        transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .font-modal.compare-mode .modal-card {
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+        cursor: ew-resize;
+        touch-action: none;
+    }
+    .font-modal.compare-mode .modal-card::after {
+        display: none !important;
+    }
+    .font-modal.compare-mode .modal-card.card-base {
+        z-index: 1;
+        opacity: 1;
+        transform: translateY(0) scale(1) !important;
+        pointer-events: none;
+    }
+    .font-modal.compare-mode .modal-card.card-custom {
+        z-index: 2;
+        opacity: 1;
+        transform: translateY(0) scale(1) !important;
+        pointer-events: none;
+        clip-path: inset(0 0 0 var(--compare-pos, 50%));
+        -webkit-clip-path: inset(0 0 0 var(--compare-pos, 50%));
+        transition: none;
+    }
+    .font-modal.compare-mode .modal-card.card-base .modal-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        right: auto;
+        opacity: 1;
+        z-index: 5;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+    }
+    .font-modal.compare-mode .modal-card.card-custom .modal-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        left: auto;
+        opacity: 1;
+        z-index: 5;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+    }
+    .font-modal.compare-mode .bell-toggle {
+        opacity: 0 !important;
+        pointer-events: none !important;
+        transform: translateX(-50%) translateY(12px) scale(0.95) !important;
+    }
+
+    /* Разделитель режима сравнения (Before / After slider) */
+    .compare-slider {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: var(--compare-pos, 50%);
+        width: 44px;
+        margin-left: -22px;
+        z-index: 10;
+        cursor: ew-resize;
+        touch-action: none;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        user-select: none;
+        -webkit-user-select: none;
+        pointer-events: auto;
+    }
+
+    .font-modal.compare-mode .compare-slider {
+        display: flex;
+    }
+
+    .compare-divider-line {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        width: 2px;
+        transform: translateX(-50%);
+        background: #8e8e93;
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.45);
+        pointer-events: none;
+    }
+
+    .compare-handle {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 32px;
+        height: 20px;
+        border-radius: 10px;
+        background: rgba(24, 24, 28, 0.95);
+        border: 1.5px solid #8e8e93;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+        transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .compare-slider:active .compare-handle,
+    .compare-slider.is-dragging .compare-handle {
+        transform: translate(-50%, -50%) scale(1.1);
+        border-color: #d042e3;
+        background: rgba(30, 24, 34, 0.98);
+    }
+
+    .compare-slider:active .compare-divider-line,
+    .compare-slider.is-dragging .compare-divider-line {
+        background: #d042e3;
+        box-shadow: 0 0 8px rgba(208, 66, 227, 0.6);
+    }
+
+    .font-modal.study-mode.zoomed-card .modal-close {
         opacity: 0;
         pointer-events: none;
         transform: scale(0.7);
     }
-
-    .font-modal.zoomed-mode .modal-card:not(.is-zoomed) {
+    .font-modal.study-mode.zoomed-card .modal-wrapper {
+        padding-top: max(1.5rem, env(safe-area-inset-top, 1.5rem));
+        padding-bottom: calc(max(1.5rem, env(safe-area-inset-bottom, 1.5rem)) + 124px);
+    }
+    .font-modal.study-mode.zoomed-card .modal-stack {
+        width: min(66vw, calc((100dvh - 215px) * 0.42));
+        transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .font-modal.study-mode.zoomed-card .modal-card.card-base {
+        z-index: 10;
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0) scale(1);
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95);
+    }
+    .font-modal.study-mode.zoomed-card .modal-card.card-custom {
+        z-index: 20;
         opacity: 0;
         pointer-events: none;
-        transform: translateY(0) scale(0.9);
+        transform: translateY(0) scale(1);
+        transition: opacity 0.28s ease, transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .font-modal.study-mode.zoomed-card.toggle-on .modal-card.card-custom,
+    .font-modal.study-mode.zoomed-card .modal-card.card-custom.is-zoomed {
+        opacity: 1;
+        pointer-events: auto;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 35px rgba(208, 66, 227, 0.4);
+    }
+    .font-modal.study-mode.zoomed-card.toggle-on .modal-card.card-base .modal-badge {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+    }
+    .font-modal.study-mode.zoomed-card.toggle-on .modal-card.card-base::after {
+        opacity: 0;
+        transition: opacity 0.25s ease;
     }
     .font-modal.active .hold-btn {
         opacity: 1;
         pointer-events: auto;
         transform: translateX(-50%) translateY(0) scale(1);
     }
-    .font-modal.zoomed-mode .bell-toggle {
-        opacity: 1;
-        pointer-events: auto;
-        transform: translateX(-50%) translateY(0) scale(1);
+
+    .font-modal.study-mode.zoomed-card .bell-toggle {
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        transform: translateX(-50%) translateY(0) scale(1) !important;
     }
 
     .modal-wrapper {
@@ -743,6 +950,7 @@ body.menu-open .navbar-left {
         justify-content: center;
         width: 100%;
         height: 100%;
+        box-sizing: border-box;
         pointer-events: none;
     }
 
@@ -754,6 +962,7 @@ body.menu-open .navbar-left {
         margin: 0 auto;
         position: relative;
         pointer-events: auto;
+        transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .modal-card {
@@ -846,7 +1055,7 @@ body.menu-open .navbar-left {
     @keyframes cardSlideDown {
         0% {
             opacity: 0;
-            transform: translateY(-40px) scale(0.97);
+            transform: translateY(-35px) scale(0.98);
         }
         100% {
             opacity: 1;
@@ -854,26 +1063,10 @@ body.menu-open .navbar-left {
         }
     }
 
-    @keyframes cardSlideUp {
-        0% {
-            opacity: 0;
-            transform: translateY(35px) scale(0.97);
-        }
-        100% {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-    }
-
-    .modal-card.is-zoomed.slide-in-down {
+    .modal-card.card-custom.slide-in-down {
         animation: cardSlideDown 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
     }
 
-    .modal-card.is-zoomed.slide-in-up {
-        animation: cardSlideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
-    }
-
-    /* переключатель шрифта (reactbits.dev/micro/bell-toggle) */
     .bell-toggle {
         --bt-color: #f5f5f5;
         --bt-bg: #222227;
@@ -903,11 +1096,6 @@ body.menu-open .navbar-left {
                     transform 0.25s var(--bt-ease-out);
     }
 
-    .font-modal.zoomed-mode .bell-toggle {
-        opacity: 1;
-        pointer-events: auto;
-        transform: translateX(-50%) translateY(0) scale(1);
-    }
 
     .bell-toggle[data-pressed] {
         transform: translateX(-50%) scale(var(--bt-press)) !important;

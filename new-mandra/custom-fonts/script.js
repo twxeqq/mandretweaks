@@ -138,12 +138,19 @@ document.addEventListener('DOMContentLoaded', function(){
     const modal = document.getElementById('font-modal');
     if (!modal) return;
 
+    document.body.classList.remove('modal-open');
+
+    const backdrop = modal.querySelector('.modal-backdrop');
     const closeBtn = modal.querySelector('.modal-close');
     const imgBase = modal.querySelector('.img-target-base');
     const imgCustom = modal.querySelector('.img-target-custom');
     const cardBase = modal.querySelector('.modal-card.card-base');
     const cardCustom = modal.querySelector('.modal-card.card-custom');
     const modalCards = modal.querySelectorAll('.modal-card');
+    const modalStack = modal.querySelector('.modal-stack');
+    const compareSlider = modal.querySelector('.compare-slider');
+    const badgeBase = modal.querySelector('.card-base .modal-badge');
+    const badgeCustom = modal.querySelector('.card-custom .modal-badge');
     const triggerCards = document.querySelectorAll('.img-card-m');
     const holdBtn = modal.querySelector('.hold-btn');
     const holdFill = modal.querySelector('.hold-btn-fill');
@@ -152,6 +159,8 @@ document.addEventListener('DOMContentLoaded', function(){
     const toggleBtn = modal.querySelector('.bell-toggle__button');
 
     let isToggleOn = false;
+    let comparePos = 50;
+    let isDraggingCompare = false;
 
     let currentScale = 1;
     let startDist = 0;
@@ -162,6 +171,8 @@ document.addEventListener('DOMContentLoaded', function(){
     let isPanning = false;
     let touchMoved = false;
     let lastTap = 0;
+    let currentMode = 'study'; // 'study' (режим изучения) или 'compare' (режим сравнения)
+    let isCardZoomed = false; // открыта ли отдельная увеличенная карточка в режиме изучения
     let activeZoomedCard = null;
 
     const HOLD_DURATION = 750;
@@ -170,22 +181,44 @@ document.addEventListener('DOMContentLoaded', function(){
     let isHolding = false;
 
     function applyTransform(animated = false) {
-        if (!activeZoomedCard) return;
-        activeZoomedCard.style.transition = animated ? 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)' : 'none';
-        activeZoomedCard.style.setProperty(
-            'transform',
-            `translate(${posX.toFixed(1)}px, ${posY.toFixed(1)}px) scale(${currentScale.toFixed(3)})`,
-            'important'
-        );
+        if (currentMode !== 'study' || !isCardZoomed) return;
+        const transformValue = `translate(${posX.toFixed(1)}px, ${posY.toFixed(1)}px) scale(${currentScale.toFixed(3)})`;
+        const transitionValue = animated ? 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)' : 'none';
+
+        if (cardBase) {
+            cardBase.style.transition = transitionValue;
+            cardBase.style.setProperty('transform', transformValue, 'important');
+        }
+        if (cardCustom && !cardCustom.classList.contains('slide-in-down')) {
+            cardCustom.style.transition = transitionValue;
+            cardCustom.style.setProperty('transform', transformValue, 'important');
+        }
     }
 
     function updateButtonLabel() {
         if (!holdText) return;
-        if (activeZoomedCard === cardBase || activeZoomedCard === cardCustom) {
-            holdText.textContent = 'Режим изучения';
-        } else {
+        if (currentMode === 'study') {
             holdText.textContent = 'Режим сравнения';
+        } else {
+            holdText.textContent = 'Режим изучения';
         }
+    }
+
+    function setComparePosition(percent) {
+        comparePos = Math.max(0, Math.min(100, percent));
+        if (modalStack) {
+            modalStack.style.setProperty('--compare-pos', `${comparePos}%`);
+        }
+        if (badgeBase) badgeBase.style.opacity = comparePos < 18 ? '0' : '1';
+        if (badgeCustom) badgeCustom.style.opacity = comparePos > 82 ? '0' : '1';
+    }
+
+    function handleComparePointer(clientX) {
+        if (!modalStack) return;
+        const rect = modalStack.getBoundingClientRect();
+        if (rect.width <= 0) return;
+        const rawPercent = ((clientX - rect.left) / rect.width) * 100;
+        setComparePosition(rawPercent);
     }
 
     function setToggleState(on, animated = true) {
@@ -202,45 +235,27 @@ document.addEventListener('DOMContentLoaded', function(){
             toggleBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
         }
 
-        if (!modal.classList.contains('zoomed-mode')) return;
+        if (currentMode !== 'study' || !isCardZoomed) return;
 
         if (on) {
-            // Включение переключателя: картинка со шрифтом плавно и быстро выезжает вниз на место прошлой
-            cardBase.classList.remove('is-zoomed', 'slide-in-down', 'slide-in-up');
-            cardBase.style.removeProperty('transform');
-            cardBase.style.transition = '';
-
+            modal.classList.add('toggle-on');
             cardCustom.classList.add('is-zoomed');
             activeZoomedCard = cardCustom;
 
-            if (animated) {
-                cardCustom.classList.remove('slide-in-down', 'slide-in-up');
+            if (animated && currentScale < 1.05) {
+                cardCustom.classList.remove('slide-in-down');
                 void cardCustom.offsetWidth;
                 cardCustom.classList.add('slide-in-down');
             } else {
                 applyTransform(false);
             }
         } else {
-            // Выключение переключателя: возврат к картинке без шрифта
-            cardCustom.classList.remove('is-zoomed', 'slide-in-down', 'slide-in-up');
-            cardCustom.style.removeProperty('transform');
-            cardCustom.style.transition = '';
-
-            cardBase.classList.add('is-zoomed');
+            modal.classList.remove('toggle-on');
+            cardCustom.classList.remove('is-zoomed', 'slide-in-down');
             activeZoomedCard = cardBase;
-
-            if (animated) {
-                cardBase.classList.remove('slide-in-down', 'slide-in-up');
-                void cardBase.offsetWidth;
-                cardBase.classList.add('slide-in-up');
-            } else {
-                applyTransform(false);
-            }
+            applyTransform(false);
         }
 
-        currentScale = 1;
-        posX = 0;
-        posY = 0;
         updateButtonLabel();
     }
 
@@ -252,52 +267,15 @@ document.addEventListener('DOMContentLoaded', function(){
             }
         });
     }
-    if (cardBase) {
-        cardBase.addEventListener('animationend', (e) => {
-            if (e.animationName === 'cardSlideUp') {
-                cardBase.classList.remove('slide-in-up');
-                applyTransform(false);
-            }
-        });
-    }
 
-    function openZoom(card) {
-        modalCards.forEach(c => {
-            c.classList.remove('is-zoomed', 'slide-in-down', 'slide-in-up');
-            c.style.removeProperty('transform');
-            c.style.transition = '';
-        });
-        card.classList.add('is-zoomed');
-        modal.classList.add('zoomed-mode');
-        activeZoomedCard = card;
-        currentScale = 1;
-        posX = 0;
-        posY = 0;
-        setToggleState(card === cardCustom, false);
-        updateButtonLabel();
-        applyTransform(true);
-    }
+    function openStudySelection() {
+        currentMode = 'study';
+        isCardZoomed = false;
+        activeZoomedCard = null;
 
-    function toggleStudyMode() {
-        if (!activeZoomedCard) {
-            openZoom(cardBase);
-            return;
-        }
-
-        // Если уже в режиме сравнения (открыта любая из карточек) — возвращаемся в каталог 2 карточек
-        resetZoom();
-    }
-
-    function resetZoom() {
-        modal.classList.remove('zoomed-mode');
+        modal.classList.remove('compare-mode', 'zoomed-card', 'zoomed-mode', 'toggle-on');
+        modal.classList.add('study-mode');
         endHold();
-
-        if (activeZoomedCard) {
-            activeZoomedCard.classList.remove('touching', 'is-zoomed', 'slide-in-down', 'slide-in-up');
-            activeZoomedCard.style.removeProperty('transform');
-            activeZoomedCard.style.transition = '';
-            activeZoomedCard = null;
-        }
 
         modalCards.forEach(c => {
             c.classList.remove('is-zoomed', 'touching', 'slide-in-down', 'slide-in-up');
@@ -312,13 +290,73 @@ document.addEventListener('DOMContentLoaded', function(){
         isPanning = false;
         touchMoved = false;
 
+        if (badgeBase) badgeBase.style.opacity = '';
+        if (badgeCustom) badgeCustom.style.opacity = '';
+
         setToggleState(false, false);
         updateButtonLabel();
     }
 
+    function openZoomedCard(card) {
+        currentMode = 'study';
+        isCardZoomed = true;
+        activeZoomedCard = card || cardBase;
+
+        modal.classList.remove('compare-mode');
+        modal.classList.add('study-mode', 'zoomed-card', 'zoomed-mode');
+
+        modalCards.forEach(c => {
+            c.classList.remove('is-zoomed', 'slide-in-down', 'slide-in-up');
+            c.style.removeProperty('transform');
+            c.style.transition = '';
+        });
+
+        currentScale = 1;
+        posX = 0;
+        posY = 0;
+        setToggleState(card === cardCustom, false);
+        updateButtonLabel();
+        applyTransform(true);
+    }
+
+    function openCompareMode() {
+        currentMode = 'compare';
+        isCardZoomed = false;
+        activeZoomedCard = null;
+
+        modal.classList.remove('study-mode', 'zoomed-card', 'zoomed-mode', 'toggle-on');
+        modal.classList.add('compare-mode');
+        endHold();
+
+        modalCards.forEach(c => {
+            c.classList.remove('is-zoomed', 'touching', 'slide-in-down', 'slide-in-up');
+            c.style.removeProperty('transform');
+            c.style.transition = '';
+        });
+
+        currentScale = 1;
+        posX = 0;
+        posY = 0;
+        isPinching = false;
+        isPanning = false;
+        touchMoved = false;
+
+        setComparePosition(50);
+        setToggleState(false, false);
+        updateButtonLabel();
+    }
+
+    function toggleMode() {
+        if (currentMode === 'study') {
+            openCompareMode();
+        } else {
+            openStudySelection();
+        }
+    }
+
     function closeModal() {
         modal.classList.remove('active');
-        resetZoom();
+        openStudySelection();
         document.body.classList.remove('modal-open');
     }
 
@@ -329,7 +367,7 @@ document.addEventListener('DOMContentLoaded', function(){
             if (imgBase) imgBase.src = `assets/no-cf-${fontNumber}.jpg`;
             if (imgCustom) imgCustom.src = `assets/with-cf-${fontNumber}.jpg`;
 
-            resetZoom(); 
+            openStudySelection(); 
             modal.classList.add('active');
             document.body.classList.add('modal-open');
         });
@@ -359,7 +397,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 holdBtn.classList.remove('is-holding');
                 if (navigator.vibrate) navigator.vibrate(40);
 
-                toggleStudyMode();
+                toggleMode();
 
                 if (holdFill) holdFill.style.width = '0%';
                 return;
@@ -441,38 +479,137 @@ document.addEventListener('DOMContentLoaded', function(){
         }
     }, { capture: true });
 
+    let freeSpaceTouchActive = false;
+    let freeSpaceTouchStartX = 0;
+    let freeSpaceTouchStartY = 0;
+    let freeSpaceTouchStartTime = 0;
+    let justHandledFreeSpaceTap = false;
+
+    function handleFreeSpaceClose(e) {
+        if (!modal.classList.contains('active')) return;
+        if (justHandledFreeSpaceTap) return;
+        justHandledFreeSpaceTap = true;
+        setTimeout(() => { justHandledFreeSpaceTap = false; }, 350);
+
+        if (e && e.cancelable && e.type !== 'click') {
+            e.preventDefault();
+        }
+
+        if (currentMode === 'study' && isCardZoomed) {
+            openStudySelection();
+        } else {
+            closeModal();
+        }
+    }
+
+    if (backdrop) {
+        backdrop.addEventListener('click', (e) => {
+            if (!modal.classList.contains('active')) return;
+            handleFreeSpaceClose(e);
+        });
+    }
+
     modal.addEventListener('click', (e) => {
+        if (!modal.classList.contains('active')) return;
+        if (justHandledFreeSpaceTap) return;
+
         if (touchMoved || e.target.closest('.hold-btn') || e.target.closest('.bell-toggle')) {
             touchMoved = false;
             return;
         }
 
         if (e.target.closest('.modal-close')) {
-            closeModal();
+            if (currentMode === 'study' && isCardZoomed) {
+                openStudySelection();
+            } else {
+                closeModal();
+            }
             return;
         }
 
         const clickedCard = e.target.closest('.modal-card');
 
         if (clickedCard) {
-            if (!modal.classList.contains('zoomed-mode')) {
-                openZoom(clickedCard);
+            if (currentMode === 'study' && !isCardZoomed) {
+                openZoomedCard(clickedCard);
             }
             return;
         }
 
-        if (modal.classList.contains('zoomed-mode')) {
-            resetZoom();
+        handleFreeSpaceClose(e);
+    });
+
+    if (modalStack) {
+        modalStack.addEventListener('pointerdown', (e) => {
+            if (currentMode !== 'compare') return;
+            if (e.target.closest('.hold-btn, .modal-close, .bell-toggle')) return;
+            isDraggingCompare = true;
+            touchMoved = true;
+            if (compareSlider) compareSlider.classList.add('is-dragging');
+            try {
+                modalStack.setPointerCapture(e.pointerId);
+            } catch (_) {}
+            handleComparePointer(e.clientX);
+        });
+
+        modalStack.addEventListener('pointermove', (e) => {
+            if (!isDraggingCompare || currentMode !== 'compare') return;
+            handleComparePointer(e.clientX);
+        });
+
+        const stopPointerDrag = (e) => {
+            if (isDraggingCompare) {
+                isDraggingCompare = false;
+                if (compareSlider) compareSlider.classList.remove('is-dragging');
+                try {
+                    if (modalStack.hasPointerCapture(e.pointerId)) {
+                        modalStack.releasePointerCapture(e.pointerId);
+                    }
+                } catch (_) {}
+                setTimeout(() => { touchMoved = false; }, 100);
+            }
+        };
+
+        modalStack.addEventListener('pointerup', stopPointerDrag);
+        modalStack.addEventListener('pointercancel', stopPointerDrag);
+    }
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', (e) => {
+            if (!modal.classList.contains('active')) return;
+            e.stopPropagation();
+            if (currentMode === 'study' && isCardZoomed) {
+                openStudySelection();
+            } else {
+                closeModal();
+            }
+        });
+    }
+
+    modal.addEventListener('touchstart', (e) => {
+        if (!modal.classList.contains('active')) return;
+        const isInteractive = Boolean(e.target.closest('.modal-card, .hold-btn, .bell-toggle, .modal-close, .compare-slider'));
+
+        if (!isInteractive && e.touches.length === 1) {
+            freeSpaceTouchActive = true;
+            freeSpaceTouchStartX = e.touches[0].clientX;
+            freeSpaceTouchStartY = e.touches[0].clientY;
+            freeSpaceTouchStartTime = Date.now();
+        } else {
+            freeSpaceTouchActive = false;
+        }
+
+        if (currentMode === 'compare') {
+            if (e.target.closest('.modal-stack')) {
+                isDraggingCompare = true;
+                touchMoved = true;
+                if (compareSlider) compareSlider.classList.add('is-dragging');
+                handleComparePointer(e.touches[0].clientX);
+            }
             return;
         }
 
-        closeModal();
-    });
-
-    if (closeBtn) closeBtn.addEventListener('click', closeModal);
-
-    modal.addEventListener('touchstart', (e) => {
-        if (!modal.classList.contains('zoomed-mode') || !activeZoomedCard) return;
+        if (currentMode !== 'study' || !isCardZoomed) return;
 
         if (e.target.closest('.modal-card') && e.touches.length === 1) {
             const now = Date.now();
@@ -501,7 +638,8 @@ document.addEventListener('DOMContentLoaded', function(){
             isPinching = true;
             isPanning = false;
             touchMoved = true;
-            activeZoomedCard.classList.add('touching');
+            if (cardBase) cardBase.classList.add('touching');
+            if (cardCustom) cardCustom.classList.add('touching');
             startDist = Math.hypot(
                 e.touches[0].clientX - e.touches[1].clientX,
                 e.touches[0].clientY - e.touches[1].clientY
@@ -513,13 +651,37 @@ document.addEventListener('DOMContentLoaded', function(){
             startY = e.touches[0].clientY - posY;
             if (currentScale > 1.05) {
                 isPanning = true;
-                activeZoomedCard.classList.add('touching');
+                if (cardBase) cardBase.classList.add('touching');
+                if (cardCustom) cardCustom.classList.add('touching');
             }
         }
     }, { passive: false });
 
     modal.addEventListener('touchmove', (e) => {
-        if (!modal.classList.contains('zoomed-mode') || !activeZoomedCard) return;
+        if (!modal.classList.contains('active')) return;
+        if (freeSpaceTouchActive && e.touches.length === 1) {
+            const moveDist = Math.hypot(
+                e.touches[0].clientX - freeSpaceTouchStartX,
+                e.touches[0].clientY - freeSpaceTouchStartY
+            );
+            if (moveDist > 10) {
+                freeSpaceTouchActive = false;
+            }
+        }
+
+        if (currentMode === 'compare') {
+            if (isDraggingCompare && e.touches.length > 0) {
+                e.preventDefault();
+                touchMoved = true;
+                handleComparePointer(e.touches[0].clientX);
+            }
+            return;
+        }
+
+        if (currentMode !== 'study' || !isCardZoomed) return;
+
+        const refCard = cardBase || cardCustom;
+        if (!refCard) return;
 
         if (isPinching && e.touches.length === 2) {
             e.preventDefault();
@@ -539,8 +701,8 @@ document.addEventListener('DOMContentLoaded', function(){
             posX = e.touches[0].clientX - startX;
             posY = e.touches[0].clientY - startY;
 
-            const maxPanX = (currentScale - 1) * (activeZoomedCard.offsetWidth / 2);
-            const maxPanY = (currentScale - 1) * (activeZoomedCard.offsetHeight / 2);
+            const maxPanX = (currentScale - 1) * (refCard.offsetWidth / 2);
+            const maxPanY = (currentScale - 1) * (refCard.offsetHeight / 2);
             posX = Math.max(-maxPanX, Math.min(maxPanX, posX));
             posY = Math.max(-maxPanY, Math.min(maxPanY, posY));
 
@@ -549,12 +711,37 @@ document.addEventListener('DOMContentLoaded', function(){
     }, { passive: false });
 
     modal.addEventListener('touchend', (e) => {
-        if (!modal.classList.contains('zoomed-mode') || !activeZoomedCard) return;
+        if (!modal.classList.contains('active')) return;
+        if (freeSpaceTouchActive && e.changedTouches.length > 0) {
+            const tapDist = Math.hypot(
+                e.changedTouches[0].clientX - freeSpaceTouchStartX,
+                e.changedTouches[0].clientY - freeSpaceTouchStartY
+            );
+            const tapDuration = Date.now() - freeSpaceTouchStartTime;
+            freeSpaceTouchActive = false;
+
+            if (tapDist < 12 && tapDuration < 450) {
+                handleFreeSpaceClose(e);
+                return;
+            }
+        }
+
+        if (currentMode === 'compare') {
+            if (isDraggingCompare) {
+                isDraggingCompare = false;
+                if (compareSlider) compareSlider.classList.remove('is-dragging');
+                setTimeout(() => { touchMoved = false; }, 150);
+            }
+            return;
+        }
+
+        if (currentMode !== 'study' || !isCardZoomed) return;
 
         if (e.touches.length < 2) isPinching = false;
         if (e.touches.length === 0) {
             isPanning = false;
-            activeZoomedCard.classList.remove('touching');
+            if (cardBase) cardBase.classList.remove('touching');
+            if (cardCustom) cardCustom.classList.remove('touching');
 
             if (currentScale < 1.05) {
                 currentScale = 1;
