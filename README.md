@@ -1,5 +1,5 @@
 # MandreTweaks 
-[mandretweaks.com](https://mandretweaks.com).
+[mandretweaks.com](https://mandretweaks.com)
   
 Сайт, посвещенный каталогу твиков плагина MandreTweaks. Здесь вы можете найти описание и примеры твиков
 ## Dev team
