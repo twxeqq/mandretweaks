@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css?v=1.0.8">
+        <link rel="stylesheet" href="style.css?v=1.3.5">
         <link href="https://db.onlinewebfonts.com/c/d7e8a95865396cddca89b00080d2cba6?family=SoDo+Sans+SemiBold" rel="stylesheet">
         <title>MD-3 аватарки</title>
     </head>
@@ -54,14 +54,59 @@
                 <h1 class="title-h">Новее, свежее,<br><span>лучше</span></h1>
                 <p class="description">Добавляет Material Design 3<br>для всех аватарок</p>
             </div>
-            <div class="carousel-wrapper">
-                <div class="container-imgs" id="avatarCarousel">
-                    <img src="assets/md3-group.jpg" class="group-img img" alt="group" data-order="0">
-                    <img src="assets/md3-profile.jpg" class="profile-img img" alt="profile" data-order="1">
-                    <img src="assets/md3-channel.jpg" class="channel-img img" alt="channel" data-order="2">
+
+            <div class="tabs-container">
+                <div class="tabs-list" role="tablist" aria-label="Категории аватарок">
+                    <div class="tab-indicator" aria-hidden="true"></div>
+                    <button class="tab-trigger active" role="tab" aria-selected="true" data-tab="profile" data-index="0">Профиль</button>
+                    <button class="tab-trigger" role="tab" aria-selected="false" data-tab="group" data-index="1">Группа</button>
+                    <button class="tab-trigger" role="tab" aria-selected="false" data-tab="channel" data-index="2">Канал</button>
+                </div>
+
+                <div class="tabs-viewport">
+                    <div class="tabs-track">
+                        <!-- профиль -->
+                        <div class="tab-panel active" id="panel-profile" role="tabpanel" data-index="0">
+                            <div class="cards-pair">
+                                <div class="card card-left">
+                                    <img src="assets/md3-profile-noplugin" alt="MD3 Профиль без плагина" class="card-img">
+                                </div>
+                                <div class="card card-right card-wave" data-wave="tight">
+                                    <img src="assets/md3-profile.jpg" alt="MD3 Профиль с плагином" class="card-img card-wavy-img">
+                                    <canvas class="card-wave-canvas"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- группа -->
+                        <div class="tab-panel" id="panel-group" role="tabpanel" data-index="1">
+                            <div class="cards-pair">
+                                <div class="card card-left">
+                                    <img src="assets/md3-group-noplugin" alt="MD3 Группа без плагина" class="card-img">
+                                </div>
+                                <div class="card card-right card-wave" data-wave="stretched">
+                                    <img src="assets/md3-group.jpg" alt="MD3 Группа с плагином" class="card-img card-wavy-img">
+                                    <canvas class="card-wave-canvas"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- канал -->
+                        <div class="tab-panel" id="panel-channel" role="tabpanel" data-index="2">
+                            <div class="cards-pair">
+                                <div class="card card-left">
+                                    <img src="assets/md3-channel-noplugin" alt="MD3 Канал без плагина" class="card-img">
+                                </div>
+                                <div class="card card-right card-wave" data-wave="tight">
+                                    <img src="assets/md3-channel.jpg" alt="MD3 Канал с плагином" class="card-img card-wavy-img">
+                                    <canvas class="card-wave-canvas"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
-        <script src="script.js?v=1.0.6"></script>
+        <script src="script.js?v=1.3.0"></script>
     </body>
 </html>

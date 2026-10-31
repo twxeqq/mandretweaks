@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css?v=1.0.7">
+        <link rel="stylesheet" href="style.css?v=1.1.1">
         <link href="https://db.onlinewebfonts.com/c/d7e8a95865396cddca89b00080d2cba6?family=SoDo+Sans+SemiBold" rel="stylesheet">
         <title>MandreTweaks</title>
     </head>
@@ -83,7 +83,7 @@
         <section class="catalog-container">
             <h1 class="catalog-title">Каталог</h1>
             <div class="carousel-wrapper">
-                <button class="carousel-btn prev" onclick="moveCarousel(-1)" aria-label="←">&#10094;</button>
+                <button class="carousel-btn prev mobile" onclick="moveCarousel(-1)" aria-label="←">&#10094;</button>
 
                 <div class="carousel" id="catalogCarousel">
                     <a href="ios-input-panel" class="carousel-item">
@@ -95,16 +95,13 @@
                     <a href="custom-fonts/" class="carousel-item">
                         <img src="assets/custom-fonts.jpg" class="carousel-img" alt="custom fots">
                     </a>
-                    <a href="" class="carousel-item">
-                        <img src="assets/top-blur.jpg" class="carousel-img" alt="carousel-img">
-                    </a>
                 </div>
 
-                <button class="carousel-btn next" onclick="moveCarousel(1)" aria-label="→">&#10095;</button>
+                <button class="carousel-btn next mobile" onclick="moveCarousel(1)" aria-label="→">&#10095;</button>
             </div>
-            <div class="carousel-dots" id="carouselDots"></div>
+            <div class="carousel-dots mobile" id="carouselDots"></div>
         </section>
         
-        <script src="script.js?v=1.0.5"></script>
+        <script src="script.js?v=1.0.6"></script>
     </body>
 </html>

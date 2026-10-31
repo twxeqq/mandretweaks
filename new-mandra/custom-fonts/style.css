@@ -543,6 +543,18 @@ body.menu-open .navbar-left {
 
 /* mobile */
 
+@media (max-width: 1024px) {
+    .links.desktop {
+        display: none !important;
+    }
+    .burger.mobile {
+        display: flex !important;
+    }
+    .menu.mobile {
+        display: flex;
+    }
+}
+
 @media (max-width: 760px) {
     .desktop{
         display: none !important;

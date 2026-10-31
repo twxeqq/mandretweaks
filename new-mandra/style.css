@@ -376,25 +376,19 @@ body {
     box-sizing: border-box;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .carousel{
     display: flex;
-    gap: 20px;
-    overflow-x: hidden;
+    gap: 24px;
+    overflow-x: visible;
     scroll-behavior: smooth;
-    scroll-snap-type: x mandatory;
     scrollbar-width: none;
-    padding: 10px 5px;
-    width: 100%;
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 60px, black calc(100% - 60px), transparent 100%);
-    mask-image: linear-gradient(to right, transparent 0%, black 60px, black calc(100% - 60px), transparent 100%);
-
-    /* padding */
-    scroll-padding-inline: 60px;
-    padding: 20px 60px; 
+    padding: 20px 10px; 
     box-sizing: border-box;
     width: 100%;
+    justify-content: center;
 }
 
 
@@ -452,6 +446,7 @@ body {
 }
 
 .carousel-btn {
+    display: none;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -463,7 +458,6 @@ body {
     border: 1px solid rgb(59, 59, 59);
     cursor: pointer;
     z-index: 10;
-    display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.25rem;
@@ -497,6 +491,18 @@ body {
 
 .carousel-dots {
     display: none; /* carousel */
+}
+
+@media (max-width: 1024px) {
+    .links.desktop {
+        display: none !important;
+    }
+    .burger.mobile {
+        display: flex !important;
+    }
+    .menu.mobile {
+        display: flex;
+    }
 }
 
 @media (max-width: 760px) {
@@ -560,6 +566,9 @@ body {
         opacity: 1 !important;
         transform: none !important;
     }
+    .carousel-btn {
+        display: flex;
+    }
     .carousel-btn.prev{
         left: 4px;
     }
@@ -567,11 +576,16 @@ body {
         right: 4px;
     }
     .carousel {
+        justify-content: flex-start !important;
         overflow-x: auto !important;
         -webkit-overflow-scrolling: touch;
         scroll-snap-type: x mandatory;
         overscroll-behavior-x: contain;
         scrollbar-width: none;
+        padding: 20px 60px !important;
+        scroll-padding-inline: 60px !important;
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 60px, black calc(100% - 60px), transparent 100%);
+        mask-image: linear-gradient(to right, transparent 0%, black 60px, black calc(100% - 60px), transparent 100%);
     }
     .carousel::-webkit-scrollbar {
         display: none;

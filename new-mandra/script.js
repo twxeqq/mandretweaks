@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const dotscontainer = document.getElementById('carouselDots');
     if (!carousel || !dotscontainer) return;
 
-    const cards = document.querySelectorAll('.carousel-item');
+    const cards = carousel.querySelectorAll('.carousel-item');
     dotscontainer.innerHTML = '';
     cards.forEach((card, index) => {
         const dot = document.createElement('button');
@@ -135,10 +135,12 @@ document.addEventListener('DOMContentLoaded', function(){
         if (index === 0) dot.classList.add('active');
 
         dot.addEventListener('click', () => {
-            card.scrollIntoView({
-                behavior: 'smooth',
-                inline: 'center',
-                block: 'nearest'
+            const cardLeft = card.offsetLeft;
+            const cardWidth = card.offsetWidth;
+            const carouselWidth = carousel.clientWidth;
+            carousel.scrollTo({
+                left: cardLeft - (carouselWidth - cardWidth) / 2,
+                behavior: 'smooth'
             });
         });
         dotscontainer.appendChild(dot);
@@ -146,21 +148,27 @@ document.addEventListener('DOMContentLoaded', function(){
 
     const dots = dotscontainer.querySelectorAll('.dot');
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                const activeindex = Array.from(cards).indexOf(entry.target);
-                dots.forEach((dot, idx) => {
-                    dot.classList.toggle('active', idx === activeindex);
-                });
+    function updateActiveDot() {
+        const carouselCenter = carousel.scrollLeft + carousel.clientWidth / 2;
+        let closestIndex = 0;
+        let minDiff = Infinity;
+        cards.forEach((card, idx) => {
+            const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+            const diff = Math.abs(carouselCenter - cardCenter);
+            if (diff < minDiff) {
+                minDiff = diff;
+                closestIndex = idx;
             }
         });
-    }, {
-        root: carousel,
-        threshold: 0.6
-    });
-    cards.forEach(card => observer.observe(card))
-}) ();
+        dots.forEach((dot, idx) => {
+            dot.classList.toggle('active', idx === closestIndex);
+        });
+    }
+
+    carousel.addEventListener('scroll', updateActiveDot, { passive: true });
+    window.addEventListener('resize', updateActiveDot);
+    updateActiveDot();
+})();
 
 
 // carousel observer

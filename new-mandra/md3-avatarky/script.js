@@ -19,108 +19,234 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     }
 
-    //imgs
-    const imgs = document.querySelectorAll('.img');
-    imgs.forEach(img => {
-        img.addEventListener('animationend', () => {
-            img.style.animation = 'none';
-            img.classList.add('ready');
-        });
-    });
+    // Animate UI Tabs logic (Sliding Track Carousel + Smooth Indicator)
+    const tabsList = document.querySelector('.tabs-list');
+    const indicator = document.querySelector('.tab-indicator');
+    const triggers = Array.from(document.querySelectorAll('.tab-trigger'));
+    const track = document.querySelector('.tabs-track');
+    const panels = Array.from(document.querySelectorAll('.tab-panel'));
 
-    setTimeout(() => {
-        imgs.forEach(img => {
-            img.style.animation = 'none';
-            img.classList.add('ready');
-        });
-    }, 1500);
+    function updateIndicator(targetBtn) {
+        if (!tabsList || !indicator || !targetBtn) return;
+        const btnRect = targetBtn.getBoundingClientRect();
+        const listRect = tabsList.getBoundingClientRect();
+        const left = btnRect.left - listRect.left;
+        const width = btnRect.width;
 
-    const track = document.getElementById('avatarCarousel');
-    if (track) {
-        let isMobile = window.innerWidth <= 760;
-        let autoSlideTimer = null;
-        let isTransitioning = false;
-        let safetyTimeout = null;
+        indicator.style.transform = `translateX(${left}px)`;
+        indicator.style.width = `${width}px`;
+    }
 
-        function resetTrack() {
-            if (!isTransitioning) return;
-            track.style.transition = 'none';
-            if (track.firstElementChild) {
-                track.appendChild(track.firstElementChild);
-            }
-            track.style.transform = 'translateX(0)';
-            void track.offsetHeight;
-            isTransitioning = false;
-        }
+    function goToTab(index) {
+        if (!track || !panels[index]) return;
+        const offsetPercent = index * (100 / panels.length);
+        track.style.transform = `translateX(-${offsetPercent}%)`;
 
-        function slideNext() {
-            if (!isMobile || isTransitioning || track.children.length < 2) return;
-            if (document.hidden || document.body.classList.contains('menu-open')) return;
-
-            isTransitioning = true;
-            track.style.transition = 'transform 0.45s cubic-bezier(0.25, 1, 0.5, 1)';
-            track.style.transform = 'translateX(-100vw)';
-
-            clearTimeout(safetyTimeout);
-            safetyTimeout = setTimeout(resetTrack, 550);
-        }
-
-        track.addEventListener('transitionend', (e) => {
-            if (e.target !== track || e.propertyName !== 'transform') return;
-            resetTrack();
-        });
-
-        function startAutoSlide() {
-            stopAutoSlide();
-            autoSlideTimer = setInterval(slideNext, 2000);
-        }
-
-        function stopAutoSlide() {
-            if (autoSlideTimer) {
-                clearInterval(autoSlideTimer);
-                autoSlideTimer = null;
-            }
-        }
-
-        function handleResize() {
-            const currentlyMobile = window.innerWidth <= 760;
-            if (currentlyMobile !== isMobile) {
-                isMobile = currentlyMobile;
-                if (isMobile) {
-                    track.style.transform = 'translateX(0)';
-                    track.style.transition = 'none';
-                    isTransitioning = false;
-                    startAutoSlide();
-                } else {
-                    stopAutoSlide();
-                    track.style.transform = '';
-                    track.style.transition = '';
-                    const items = Array.from(track.children);
-                    items.sort((a, b) => (parseInt(a.dataset.order, 10) || 0) - (parseInt(b.dataset.order, 10) || 0));
-                    items.forEach(item => track.appendChild(item));
-                }
-            }
-        }
-
-        if (isMobile) {
-            startAutoSlide();
-        }
-
-        let resizeDebounce = null;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeDebounce);
-            resizeDebounce = setTimeout(handleResize, 150);
-        });
-
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                stopAutoSlide();
-            } else if (isMobile) {
-                startAutoSlide();
+        panels.forEach((p, idx) => {
+            if (idx === index) {
+                p.classList.add('active');
+            } else {
+                p.classList.remove('active');
             }
         });
     }
+
+    if (tabsList && indicator && triggers.length > 0) {
+        let currentIndex = triggers.findIndex(btn => btn.classList.contains('active'));
+        if (currentIndex === -1) currentIndex = 0;
+
+        const initialActive = triggers[currentIndex];
+        goToTab(currentIndex);
+
+        requestAnimationFrame(() => {
+            updateIndicator(initialActive);
+        });
+        window.addEventListener('load', () => {
+            updateIndicator(triggers[currentIndex] || triggers[0]);
+        });
+
+        triggers.forEach((btn, newIndex) => {
+            btn.addEventListener('click', () => {
+                if (newIndex === currentIndex) return;
+
+                triggers.forEach(b => {
+                    b.classList.remove('active');
+                    b.setAttribute('aria-selected', 'false');
+                    if (typeof b.blur === 'function') b.blur();
+                });
+                btn.classList.add('active');
+                btn.setAttribute('aria-selected', 'true');
+
+                updateIndicator(btn);
+                goToTab(newIndex);
+                currentIndex = newIndex;
+            });
+        });
+
+        window.addEventListener('resize', () => {
+            const currentActive = triggers[currentIndex] || triggers[0];
+            updateIndicator(currentActive);
+        });
+    }
+
+    initCornerWaveAnimations();
 });
+
+// Corner wave animation for cards with plugin (clipping image 1:1 with border)
+function initCornerWaveAnimations() {
+    const waveCards = document.querySelectorAll('.card-wave');
+    if (!waveCards.length) return;
+
+    let animId = null;
+    let time = 0;
+
+    function drawImageCover(ctx, img, dx, dy, dw, dh) {
+        const imgRatio = img.naturalWidth / img.naturalHeight;
+        const destRatio = dw / dh;
+        let sx = 0, sy = 0, sw = img.naturalWidth, sh = img.naturalHeight;
+        if (imgRatio > destRatio) {
+            sw = img.naturalHeight * destRatio;
+            sx = (img.naturalWidth - sw) / 2;
+        } else {
+            sh = img.naturalWidth / destRatio;
+            sy = (img.naturalHeight - sh) / 2;
+        }
+        ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh);
+    }
+
+    const cardsData = Array.from(waveCards).map(card => {
+        const canvas = card.querySelector('.card-wave-canvas');
+        const img = card.querySelector('.card-wavy-img');
+        const isStretched = card.dataset.wave === 'stretched';
+        // 'stretched' (group): k = 0.85, amp = 6, speed = 0.050 (faster)
+        // 'tight' (profile/channel): k = 1.70, amp = 4, speed = 0.085 (faster)
+        const k = isStretched ? 0.85 : 1.70;
+        const amp = isStretched ? 6 : 4;
+        const speed = isStretched ? 0.050 : 0.085;
+        return {
+            card,
+            canvas,
+            img,
+            ctx: canvas ? canvas.getContext('2d') : null,
+            k,
+            amp,
+            speed,
+            time: 0
+        };
+    });
+
+    function getCornerPts(cx, cy, startA, endA, R, amp, k, t) {
+        const pts = [];
+        const steps = 24;
+        for (let i = 0; i <= steps; i++) {
+            const u = i / steps;
+            const theta = startA + u * (endA - startA);
+            const win = Math.sin(u * Math.PI);
+            const dr = amp * Math.sin(k * u * Math.PI * 2 - t) * win;
+            const r = R + dr;
+            pts.push({ x: cx + r * Math.cos(theta), y: cy + r * Math.sin(theta) });
+        }
+        return pts;
+    }
+
+    function render() {
+        const pad = 12;
+        const R = 48;
+
+        cardsData.forEach(item => {
+            const { card, canvas, img, ctx, k, amp, speed } = item;
+            if (!canvas || !ctx) return;
+
+            item.time += speed;
+            const t = item.time;
+
+            const cardW = card.offsetWidth;
+            const cardH = card.offsetHeight;
+            if (cardW === 0 || cardH === 0) return;
+
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            const targetW = Math.round(cardW + 24);
+            const targetH = Math.round(cardH + 24);
+
+            if (canvas.width !== targetW * dpr || canvas.height !== targetH * dpr) {
+                canvas.width = targetW * dpr;
+                canvas.height = targetH * dpr;
+            }
+
+            ctx.save();
+            ctx.scale(dpr, dpr);
+            ctx.clearRect(0, 0, targetW, targetH);
+
+            const w = targetW - 2 * pad;
+            const h = targetH - 2 * pad;
+            const R = cardW < 340 ? 36 : 48;
+
+            const cTL = { cx: pad + R, cy: pad + R };
+            const cTR = { cx: pad + w - R, cy: pad + R };
+            const cBR = { cx: pad + w - R, cy: pad + h - R };
+            const cBL = { cx: pad + R, cy: pad + h - R };
+
+            ctx.beginPath();
+            // Start at top straight edge
+            ctx.moveTo(pad + R, pad);
+            ctx.lineTo(pad + w - R, pad);
+
+            // Top-Right corner wave
+            const trPts = getCornerPts(cTR.cx, cTR.cy, -Math.PI / 2, 0, R, amp, k, t);
+            trPts.forEach(pt => ctx.lineTo(pt.x, pt.y));
+
+            // Right straight edge
+            ctx.lineTo(pad + w, pad + h - R);
+
+            // Bottom-Right corner wave
+            const brPts = getCornerPts(cBR.cx, cBR.cy, 0, Math.PI / 2, R, amp, k, t);
+            brPts.forEach(pt => ctx.lineTo(pt.x, pt.y));
+
+            // Bottom straight edge
+            ctx.lineTo(pad + R, pad + h);
+
+            // Bottom-Left corner wave
+            const blPts = getCornerPts(cBL.cx, cBL.cy, Math.PI / 2, Math.PI, R, amp, k, t);
+            blPts.forEach(pt => ctx.lineTo(pt.x, pt.y));
+
+            // Left straight edge
+            ctx.lineTo(pad, pad + R);
+
+            // Top-Left corner wave
+            const tlPts = getCornerPts(cTL.cx, cTL.cy, Math.PI, 1.5 * Math.PI, R, amp, k, t);
+            tlPts.forEach(pt => ctx.lineTo(pt.x, pt.y));
+
+            ctx.closePath();
+
+            // 1. Clip and draw image 1-to-1 along the exact same wavy contour
+            if (img && img.complete && img.naturalWidth > 0) {
+                ctx.save();
+                ctx.clip();
+                drawImageCover(ctx, img, pad, pad, w, h);
+                ctx.restore();
+            }
+
+            // 2. Stroke the 4px 60% white border along the exact contour
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.stroke();
+
+            ctx.restore();
+        });
+
+        animId = requestAnimationFrame(render);
+    }
+
+    animId = requestAnimationFrame(render);
+
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            cancelAnimationFrame(animId);
+        } else {
+            animId = requestAnimationFrame(render);
+        }
+    });
+}
 
 
 // background

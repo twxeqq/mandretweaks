@@ -509,6 +509,18 @@ body.menu-open .navbar-left {
     box-shadow: 0 0 10px rgba(208, 66, 227, 0.45);
 }
 
+@media (max-width: 1024px) {
+    .links.desktop {
+        display: none !important;
+    }
+    .burger.mobile {
+        display: flex !important;
+    }
+    .menu.mobile {
+        display: flex;
+    }
+}
+
 @media (max-width: 760px) {
     .desktop{
         display: none !important;

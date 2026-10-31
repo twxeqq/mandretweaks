@@ -4,7 +4,8 @@
 *,
 *::before,
 *::after {
-    -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
 }
 
 :root {
@@ -343,8 +344,8 @@ body.menu-open .navbar-left {
 
 .container-title{
     display: flex;
-    margin-top: 5.5rem;
-    margin-bottom: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
     flex-direction: row;
     justify-content: center;
     gap: 2rem;
@@ -424,128 +425,254 @@ body.menu-open .navbar-left {
     }
 }
 
-.carousel-wrapper {
-    position: relative;
-    width: 100%;
+.tabs-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 90rem;
+    margin: 0 auto 3.5rem auto;
+    z-index: 2;
+    animation: tabsFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
 }
 
-.container-imgs{
+@keyframes tabsFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.tabs-list {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    background: rgba(22, 22, 26, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 9999px;
+    padding: 6px;
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.4);
+    gap: 4px;
+}
+
+.tab-indicator {
+    position: absolute;
+    top: 6px;
+    left: 0;
+    height: calc(100% - 12px);
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.16);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+                width 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    pointer-events: none;
+    z-index: 1;
+    will-change: transform, width;
+}
+
+.tab-trigger {
+    position: relative;
+    z-index: 2;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 28px;
+    color: rgba(215, 215, 222, 0.65);
+    font-family: inherit;
+    font-size: 1.05rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    transition: color 0.25s ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.tab-trigger,
+.tab-trigger:focus,
+.tab-trigger:focus-visible,
+.tab-trigger:active {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+.tab-trigger:hover {
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.tab-trigger.active {
+    color: #ffffff;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.tabs-viewport {
+    position: relative;
+    width: 100%;
+    margin-top: 2rem;
+    overflow: hidden;
+}
+
+.tabs-track {
+    display: flex;
+    width: 300%;
+    transform: translateX(0%);
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+}
+
+.tab-panel {
+    width: 33.333333%;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    opacity: 0.35;
+    filter: blur(4px);
+    transition: opacity 0.4s ease, filter 0.4s ease;
+    pointer-events: none;
+}
+
+.tab-panel.active {
+    opacity: 1;
+    filter: blur(0px);
+    pointer-events: auto;
+}
+
+.cards-pair {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: row;
-    max-width: 100.75rem;
-    margin: 2rem auto 3rem auto;
-    gap: clamp(1.15rem, 2.25vw, 2.85rem);
-    padding: clamp(1rem, 2vw, 1.85rem);
-    border-radius: 24px;
-    background: rgba(38, 38, 44, 0.65);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45);
-    animation: containerIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s backwards;
+    padding: 2.5rem 1.5rem;
+    perspective: 1200px;
 }
 
-@keyframes containerIn {
-    0% {
-        opacity: 0;
-        transform: translateY(24px) scale(0.98);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.img{
+.card {
     position: relative;
-    width: clamp(15rem, 20vw, 27.85rem);
-    height: auto;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 18px;
+    width: clamp(17.5rem, 26vw, 31rem);
+    border-radius: 24px;
+    border: 4px solid rgba(255, 255, 255, 0.6);
+    box-sizing: border-box;
+    overflow: hidden;
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.55);
     cursor: pointer;
-    display: block;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+    background: transparent !important;
+    background-color: transparent !important;
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+    -webkit-touch-callout: none !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    transform-origin: center center;
+    transition: transform 0.45s cubic-bezier(0.2, 0, 0, 1),
+                box-shadow 0.45s cubic-bezier(0.2, 0, 0, 1);
     will-change: transform, box-shadow;
-    transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1),
-                box-shadow 0.4s cubic-bezier(0.2, 0, 0, 1),
-                border-color 0.35s ease,
-                filter 0.35s ease,
-                opacity 0.35s ease;
 }
 
-.group-img{
-    animation: groupIn 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.35s backwards;
+.card:active,
+.card:focus,
+.card:focus-visible,
+.card-left:active,
+.card-right:active,
+.card-wave:active {
+    outline: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
 }
 
-@keyframes groupIn {
-    0% {
-        transform: translateY(36px) scale(0.96);
-        opacity: 0;
-    }
-    100% {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-    }
+.card-left {
+    transform: rotate(-3.5deg) scale(0.92);
+    margin-right: -45px;
+    z-index: 1;
+    opacity: 0.92;
 }
 
-.profile-img{
-    animation: profileIn 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.45s backwards;
-}
-
-@keyframes profileIn {
-    0% {
-        transform: scale(0.92) translateY(12px);
-        opacity: 0;
-    }
-    100% {
-        transform: scale(1) translateY(0);
-        opacity: 1;
-    }
-}
-
-.channel-img{
-    animation: channelIn 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.55s backwards;
-}
-
-@keyframes channelIn {
-    0% {
-        transform: translateY(-36px) scale(0.96);
-        opacity: 0;
-    }
-    100% {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-    }
-}
-
-.img.ready {
-    animation: none;
+.card-right {
+    transform: rotate(3deg) scale(1.06);
+    z-index: 2;
     opacity: 1;
+    box-shadow: 0 26px 58px rgba(0, 0, 0, 0.65);
 }
 
-/* Desktop hover and focus animations (screens > 760px) */
-@media (min-width: 761px) {
-    .container-imgs:hover .img:not(:hover) {
-        opacity: 0.75;
-        filter: brightness(0.85);
-    }
+.card-right.card-wave {
+    border: none !important;
+    background: transparent !important;
+    overflow: visible !important;
+    border-radius: 40px;
+}
 
-    .img:hover {
-        transform: translateY(-10px) scale(1.025) !important;
-        border-color: rgba(208, 66, 227, 0.75) !important;
-        box-shadow: 0 24px 45px rgba(0, 0, 0, 0.6), 
-                    0 0 30px rgba(208, 66, 227, 0.35) !important;
-        opacity: 1 !important;
-        filter: brightness(1.04) !important;
-        z-index: 10;
-        pointer-events: auto !important;
-    }
+.card-right.card-wave .card-wavy-img {
+    visibility: hidden;
+    opacity: 0;
+    display: block;
+    width: 100%;
+    height: auto;
+    pointer-events: none;
+}
 
-    .img:active {
-        transform: translateY(-4px) scale(1.01) !important;
-        transition-duration: 0.15s;
+.card-wave-canvas {
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    width: calc(100% + 24px);
+    height: calc(100% + 24px);
+    pointer-events: none;
+    z-index: 5;
+    display: block;
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+}
+
+.card-left:hover {
+    z-index: 10 !important;
+    transform: translateY(-8px) scale(0.98) rotate(0deg) !important;
+    opacity: 1 !important;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), 
+                0 0 36px rgba(255, 255, 255, 0.25) !important;
+}
+
+.card-right:hover {
+    z-index: 10 !important;
+    transform: translateY(-10px) scale(1.11) rotate(0deg) !important;
+    box-shadow: 0 34px 68px rgba(0, 0, 0, 0.75), 
+                0 0 40px rgba(255, 255, 255, 0.3) !important;
+}
+
+.card-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+}
+
+@media (max-width: 1024px) {
+    .links.desktop {
+        display: none !important;
+    }
+    .burger.mobile {
+        display: flex !important;
+    }
+    .menu.mobile {
+        display: flex;
     }
 }
 
@@ -608,80 +735,101 @@ body.menu-open .navbar-left {
         display: none !important;
     }
 
-    .carousel-wrapper {
-        position: relative !important;
-        width: 100vw !important;
-        max-width: 100vw !important;
-        margin-left: calc(50% - 50vw) !important;
-        margin-right: calc(50% - 50vw) !important;
+    .tabs-container {
+        width: 100% !important;
         margin-top: 1rem !important;
-        margin-bottom: 3.5rem !important;
-        overflow: hidden !important;
-        display: flex !important;
-        justify-content: flex-start !important;
-        touch-action: pan-y !important;
-        user-select: none !important;
-        -webkit-user-select: none !important;
+        margin-bottom: 3rem !important;
+        padding: 0 1rem !important;
+        box-sizing: border-box !important;
     }
 
-    .container-imgs {
+    .tabs-list {
+        padding: 4px !important;
+        max-width: 95vw !important;
+    }
+
+    .tab-trigger {
+        padding: 8px 18px !important;
+        font-size: 0.95rem !important;
+    }
+
+    .cards-pair,
+    .cards-pair * {
+        pointer-events: none !important;
+        -webkit-touch-callout: none !important;
+        -webkit-user-select: none !important;
+        user-select: none !important;
+        -webkit-tap-highlight-color: transparent !important;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+    }
+
+    .cards-pair {
         display: flex !important;
-        flex-direction: row !important;
+        flex-direction: column !important;
         align-items: center !important;
-        justify-content: flex-start !important;
-        width: max-content !important;
-        max-width: none !important;
+        justify-content: center !important;
         gap: 0 !important;
-        padding: 0 !important;
-        margin: 0 !important;
+        padding: 1.25rem 0.5rem 2.75rem 0.5rem !important;
+        perspective: 1000px !important;
+    }
+
+    .card {
+        width: 74vw !important;
+        max-width: 310px !important;
+        border-radius: 20px !important;
+        cursor: default !important;
         background: transparent !important;
         background-color: transparent !important;
+        outline: none !important;
+        border: 4px solid rgba(255, 255, 255, 0.6) !important;
+        transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1),
+                    box-shadow 0.4s cubic-bezier(0.2, 0, 0, 1) !important;
+    }
+
+    /* Карточка с плагином (сверху, поверх нижней) */
+    .card-right {
+        order: 1 !important;
+        z-index: 3 !important;
+        margin-right: 0 !important;
+        margin-bottom: 0 !important;
+        opacity: 1 !important;
+        box-shadow: 0 20px 42px rgba(0, 0, 0, 0.65) !important;
+    }
+
+    .card-right.card-wave {
         border: none !important;
-        box-shadow: none !important;
-        backdrop-filter: none !important;
-        -webkit-backdrop-filter: none !important;
-        border-radius: 0 !important;
-        animation: none !important;
-        opacity: 1 !important;
-        transform: translateX(0);
-        will-change: transform;
-        touch-action: pan-y !important;
-        pointer-events: none !important;
+        background: transparent !important;
+        background-color: transparent !important;
+        filter: drop-shadow(0 16px 32px rgba(0, 0, 0, 0.6));
     }
 
-    .img {
-        width: 75vw !important;
-        max-width: 75vw !important;
-        height: auto !important;
-        margin: 0 12.5vw !important;
-        flex-shrink: 0 !important;
-        display: block !important;
-        animation: none !important;
-        opacity: 1 !important;
-        transform: none !important;
-        border-radius: 20px !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        box-shadow: none !important;
-        filter: none !important;
-        touch-action: pan-y !important;
-        pointer-events: none !important;
-        user-select: none !important;
-        -webkit-user-drag: none !important;
+    /* Карточка без плагина (снизу, наезжает под карточку с плагином) */
+    .card-left {
+        order: 2 !important;
+        z-index: 1 !important;
+        margin-right: 0 !important;
+        margin-top: -38px !important;
+        opacity: 0.95 !important;
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.5) !important;
     }
 
-    .img:hover,
-    .img:focus,
-    .img:active {
-        box-shadow: none !important;
-        filter: none !important;
-        transform: none !important;
+    /* Наклоны карточек для секций 1 («Профиль») и 3 («Канал») — одинаковый стиль */
+    #panel-profile .card-right,
+    #panel-channel .card-right {
+        transform: rotate(-3deg) scale(1) !important;
     }
 
-    .group-img,
-    .profile-img,
-    .channel-img {
-        animation: none !important;
-        opacity: 1 !important;
-        transform: none !important;
+    #panel-profile .card-left,
+    #panel-channel .card-left {
+        transform: rotate(2.5deg) scale(0.96) !important;
+    }
+
+    /* Наклоны карточек для секции 2 («Группа») — альтернативный/зеркальный стиль */
+    #panel-group .card-right {
+        transform: rotate(3deg) scale(1) !important;
+    }
+
+    #panel-group .card-left {
+        transform: rotate(-2.5deg) scale(0.96) !important;
     }
 }
