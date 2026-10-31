@@ -1,4 +1,5 @@
 # MandreTweaks 
+mandretweaks.com
 Сайт, посвещенный каталогу твиков плагина MandreTweaks. Здесь вы можете найти описание и примеры твиков
 ## Dev team
 Создатель плагина и твиков - t.me/sterepando
